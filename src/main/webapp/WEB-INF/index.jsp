@@ -19,7 +19,7 @@
 </div>
 	
 <div class="sidebar"></div>
-<div class="health">
+<div class="health" id="spawner">
 <h2>50</h2>
 </div>
 <div class="div">^_^</div>

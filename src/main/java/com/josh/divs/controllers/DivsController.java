@@ -32,10 +32,13 @@ public class DivsController {
 	
 	@RequestMapping(value="/spawn", method=RequestMethod.POST)
 	public ResponseEntity<?> spawnAjax() {
+		System.out.println("**************************************");
+		System.out.println("SPAWNING");
 		NameGenerator name = new NameGenerator();
 		Div newDiv = divs.createDiv(name.name());
 		JsUpdateString update = new JsUpdateString(divs);
 		String result = update.getData(newDiv);
+		System.out.println(result);
 		return ResponseEntity.ok(result);
 	}
 	
