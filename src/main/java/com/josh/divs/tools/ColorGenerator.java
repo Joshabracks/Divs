@@ -14,7 +14,7 @@ public class ColorGenerator {
 		int g = rando.nextInt(255);
 		int b = rando.nextInt(255);
 		
-		String color = "rbg" + r + "," + g +"," + b;
+		String color = "rgb(" + r + "," + g +"," + b + ")";
 		return color;
 	}
 }

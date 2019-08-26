@@ -30,17 +30,17 @@ public class DivsController {
 		return "/index.jsp";
 		}
 	
-	@RequestMapping("/spawn")
-	public String spawn() {
+	@RequestMapping(value="/spawn", method=RequestMethod.POST)
+	public ResponseEntity<?> spawnAjax() {
 		NameGenerator name = new NameGenerator();
-		divs.createDiv(name.name());
-		return "redirect:/";
+		Div newDiv = divs.createDiv(name.name());
+		JsUpdateString update = new JsUpdateString(divs);
+		String result = update.getData(newDiv);
+		return ResponseEntity.ok(result);
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public ResponseEntity<?> updateAjax(){
-		NameGenerator name = new NameGenerator();
-		divs.createDiv(name.name());
 		JsUpdateString update = new JsUpdateString(divs);
 		String result = update.getData();
 		return ResponseEntity.ok(result);

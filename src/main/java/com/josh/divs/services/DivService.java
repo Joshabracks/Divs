@@ -40,8 +40,9 @@ public class DivService {
 		newDiv.setName(name);
 		newDiv.setColor(colors.mix());
 		newDiv.setOutline(colors.mix());
-		newDiv.setRadius(rando.nextInt(25));
 		newDiv.setMood(mood.get());
+		newDiv.setRadius(rando.nextInt(25));
+		
 		
 		divs.save(newDiv);
 		return newDiv;

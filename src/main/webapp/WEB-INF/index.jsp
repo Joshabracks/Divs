@@ -26,7 +26,7 @@
 <div class="bottom" id="marquis">
 
 </div>
-<div class="game">
+<div class="game" id="gamer">
 
 </div>
 </div>
