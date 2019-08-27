@@ -42,6 +42,25 @@
 
 }
 
+.things{
+	padding: 10px;
+	color: white;
+	position: absolute;
+	width: 200px;
+	text-align: right;
+	width: 50%;
+	right: 0px;
+	top: 0px;
+	bottom: 75px;
+}
+.button{
+	background-color: #29ABE2;
+	border: 0;
+	padding: 2px;
+	color: white;
+	font-weight: bold;
+	border-radius: 2px;
+}
 .sidebar{
     display: block;
     padding: 5px;
@@ -66,7 +85,7 @@
     color: white;
     background-color: #F7931E;
     position: fixed;
-    height: 200px;
+    height: 100px;
     left: 200px;
     right: 0px;
     bottom: 0px;
@@ -87,7 +106,7 @@
     top: 74px;
     left: 200px;
     right: 0px;
-    bottom: 200px;
+    bottom: 100px;
     box-shadow: inset 20px 20px 20px -7px rgba(0, 0, 0, 0.678);
     border-left: 10px solid #C1272D;
 }

@@ -314,8 +314,6 @@ window.onload = function(){
 window.setInterval(function(){
 	for (var i = 0; i < allDivs.length; i++){
 		move(allDivs[i]);
-		
-		
 	}
 },speed)
 
@@ -331,3 +329,9 @@ $('#spawner').click(function(event) {
             event.stopPropagation()
             spawn();
         })
+        
+
+        
+function reply_click(clicked_id){alert(clicked_id);}
+        
+//$("#things").ajaxForm({url: '/thing/new', type: 'post'})
