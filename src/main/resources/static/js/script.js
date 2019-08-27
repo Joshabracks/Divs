@@ -3,8 +3,8 @@ var xtarget = 0;
 var ytarget = 0;
 var x = 0;
 var y = 0;
-//CONTROLS SPEED OF GAME | UPDATES BY MILLISECONDS (1000 MS = 1 SECOND)
-var speed = 20;
+
+var speed = 20; //CONTROLS MOVE SPEED OF DIVS | UPDATES BY MILLISECONDS (1000 MS = 1 SECOND)
 var allDivs = [];
 var tempMar = "";
 
@@ -30,6 +30,46 @@ function move(div){
 	    }
 	    dot.style.top = (div.y+74) + "px";
     }
+}
+//PROXIMITY AND SPACE MAKING BEHAVIOUR
+function xProx(x1, x2){
+	return Math.abs(x1 - x2);
+}
+function yProx(y1, y2){
+	return Math.abs(y1 - y2);
+}
+function makeSpace(div){
+	var other = allDivs[0];
+	for (var i = 0; i < allDivs.length; i++){
+		if (allDivs[i] != div){
+			var yprox = yProx(div.y, allDivs[i].y);
+			var xprox = xProx(div.x, allDivs[i].x);
+			if ((xprox < 50) && (yprox < 50)) {
+				if (xprox >= yprox) {
+					if (div.x == allDivs[i].x) {
+						div.xtarget = (div.x + Math.floor(Math.random() * 100) - 50);
+					}
+					else if (div.x < allDivs[i].x){
+						div.xtarget = (allDivs[i].x-50);
+						}
+					else {
+						div.xtarget = (allDivs[i].x+50);
+					}
+				}
+				else {
+					if (div.y == allDivs[i].y) {
+						div.ytarget = (div.y + Math.floor(Math.random() * 100) - 50);
+					}
+					else if (div.y < allDivs[i].y){
+						div.ytarget = (allDivs[i].y-50);
+						}
+					else {
+						div.ytarget = (allDivs[i].y+50);
+					}
+				}
+			}
+		}
+	}
 }
 
 
@@ -216,9 +256,6 @@ function updateMarquis() {
 	document.getElementById("marquis").innerHTML  = tempMar;
 }
 
-
-
-
 //Trigger function
 function trigger(){
 	alert("Trigger!");
@@ -277,8 +314,17 @@ window.onload = function(){
 window.setInterval(function(){
 	for (var i = 0; i < allDivs.length; i++){
 		move(allDivs[i]);
+		
+		
 	}
 },speed)
+
+window.setInterval(function(){
+	for (var i = 0; i < allDivs.length; i++){
+
+		makeSpace(allDivs[i]);
+	}
+}, 500)
 
 $('#spawner').click(function(event) {
             event.stopImmediatePropagation()   
