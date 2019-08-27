@@ -157,6 +157,25 @@ function spawnData(data){
 	}
 }
 
+function setDivs() {
+	var htmGo = "";
+	for (var i = 0; i < allDivs.length; i++){
+		var current = allDivs[i];
+		htmGo = htmGo + '<div class="divvy" id="' + current.id + '"></div>';
+	}
+	document.getElementById("gamer").innerHTML = htmGo;
+}
+function updateDivs() {
+	for (var i = 0; i < allDivs.length; i++){
+		current = allDivs[i];
+		target = document.getElementById(allDivs[i].id);
+		target.style.backgroundColor = current.color;
+		target.style.border = '5px solid ' + current.outline;
+		target.style.borderRadius = current.radius;
+		target.innerHTML = current.mood;
+	}
+}
+
 function updateMarquis() {
 	document.getElementById("marquis").innerHTML  = tempMar;
 }
@@ -196,11 +215,11 @@ function update(){
 	      type: "POST",
 	      url: "/update",
 	      success: function(data, result, jqXHR) {
-	    	  console.log(data);
 	          //MARQUIS UPDATE FUNCTION
-	    	  updateData(data);
+//	    	  updateData(data);
 	          updateMarquis();
 	          updateSidebar();
+	          updateDivs();
 	          //GAME UPDATE FUNCTION
 	          
 	          //SIDEBAR UPDATE FUNCTION
@@ -216,6 +235,7 @@ function spawn(){
 		url: "/spawn",
 		success: function(data, result, jqXHR) {
 			spawnData(data);
+			setDivs();
 		}
 	})
 }
