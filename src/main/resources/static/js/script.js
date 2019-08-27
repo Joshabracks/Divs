@@ -3,11 +3,77 @@ var xtarget = 0;
 var ytarget = 0;
 var x = 0;
 var y = 0;
-//CONTROLS SPEED OF GAME | UPDATES BY MILLISECONDS (1000 MS = 1 SECOND)
-var speed = 10000;
+
+var speed = 20; //CONTROLS MOVE SPEED OF DIVS | UPDATES BY MILLISECONDS (1000 MS = 1 SECOND)
 var allDivs = [];
 var tempMar = "";
 
+
+function move(div){
+    var dot = document.getElementById(div.id);
+    
+    if (div.x != div.xtarget){
+	    if (div.x < div.xtarget) {
+	    	div.x++;
+	    }
+	    if (div.x > div.xtarget) {
+	    	div.x--;
+	    }
+	    dot.style.left = (div.x+200) + "px";
+    }
+    if (div.y != div.ytarget){
+	    if (div.y < div.ytarget) {
+	    	div.y++;
+	    }
+	    if (div.y > div.ytarget) {
+	    	div.y--;
+	    }
+	    dot.style.top = (div.y+74) + "px";
+    }
+}
+//PROXIMITY AND SPACE MAKING BEHAVIOUR
+function xProx(x1, x2){
+	return Math.abs(x1 - x2);
+}
+function yProx(y1, y2){
+	return Math.abs(y1 - y2);
+}
+function makeSpace(div){
+	var other = allDivs[0];
+	for (var i = 0; i < allDivs.length; i++){
+		if (allDivs[i] != div){
+			var yprox = yProx(div.y, allDivs[i].y);
+			var xprox = xProx(div.x, allDivs[i].x);
+			if ((xprox < 50) && (yprox < 50)) {
+				if (xprox >= yprox) {
+					if (div.x == allDivs[i].x) {
+						div.xtarget = (div.x + Math.floor(Math.random() * 100) - 50);
+					}
+					else if (div.x < allDivs[i].x){
+						div.xtarget = (allDivs[i].x-50);
+						}
+					else {
+						div.xtarget = (allDivs[i].x+50);
+					}
+				}
+				else {
+					if (div.y == allDivs[i].y) {
+						div.ytarget = (div.y + Math.floor(Math.random() * 100) - 50);
+					}
+					else if (div.y < allDivs[i].y){
+						div.ytarget = (allDivs[i].y-50);
+						}
+					else {
+						div.ytarget = (allDivs[i].y+50);
+					}
+				}
+			}
+		}
+	}
+}
+
+
+ 
 function div(id, name, color, outline, mood, radius) {
 	this.id = id;
 	this.name = name;
@@ -15,7 +81,11 @@ function div(id, name, color, outline, mood, radius) {
 	this.outline = outline;
 	this.mood = mood;
 	this.radius = radius;
-	}
+	this.xtarget = 0;
+	this.ytarget = 0;
+	this.x = 0;
+	this.y = 0;
+}
 
 //PARSES THROUGH DATA ON UPDATE FUNCTION
 function updateData(data){
@@ -122,6 +192,12 @@ function spawnData(data){
 			if (command == "end") {
 				var newDiv = new div(id, name, color, outline, mood, radius);
 				allDivs.push(newDiv);
+				var id = "";
+				var name = "";
+				var color = "";
+				var outline = "";
+				var mood = "";
+				var radius = "";
 			}
 			else {
 				command = "";
@@ -157,47 +233,51 @@ function spawnData(data){
 	}
 }
 
+function setDivs() {
+	var htmGo = "";
+	for (var i = 0; i < allDivs.length; i++){
+		var current = allDivs[i];
+		htmGo = htmGo + '<div class="divvy" id="' + current.id + '"></div>';
+	}
+	document.getElementById("gamer").innerHTML = htmGo;
+}
+function updateDivs() {
+	for (var i = 0; i < allDivs.length; i++){
+		current = allDivs[i];
+		target = document.getElementById(allDivs[i].id);
+		target.style.backgroundColor = current.color;
+		target.style.border = '5px solid ' + current.outline;
+		target.style.borderRadius = current.radius + "px";
+		target.innerHTML = current.mood;
+	}
+}
+
 function updateMarquis() {
 	document.getElementById("marquis").innerHTML  = tempMar;
 }
-
-function move(){
-    var dot = document.getElementById('dot')
-    if (x < xtarget) {
-        x++;
-    }
-    if (x > xtarget) {
-        x--;
-    }
-    if (y < ytarget) {
-        y++;
-    }
-    if (y > ytarget) {
-        y--;
-    }
-
-    dot.style.left = x + "px";
-    dot.style.top = y + "px";
-}
-
 
 //Trigger function
 function trigger(){
 	alert("Trigger!");
 }
 
+function updateSidebar(){
+	
+}
 
-
-//Update function
-function update(){
+//GETS ALL DIVS FROM SERVER :: RUN ON PAGE LOAD ONLY
+function updateAll(){
 	$.ajax({
 	      type: "POST",
 	      url: "/update",
 	      success: function(data, result, jqXHR) {
-	          //MARQUIS UPDATE FUNCTION
-	    	  updateData(data);
+	    	  spawnData(data);
+	    	  setDivs();
+	    	  updateDivs();
 	          updateMarquis();
-	          console.log("UPDATING");
+	          updateSidebar();
+	          //UPDATE DIVS FUNCTION :: UPDATES DIVS WITHOUT ADDING NEW DIVS 
+//	          updateDivs();
 	          //GAME UPDATE FUNCTION
 	          
 	          //SIDEBAR UPDATE FUNCTION
@@ -206,13 +286,14 @@ function update(){
 }
 
 
-
+//SPAWNS A NEW DIV AND ADDS TO JS OBJECTS :: DOES NOT GET ALL FROM DATABASE
 function spawn(){
 	$.ajax({
 		type: "POST",
 		url: "/spawn",
 		success: function(data, result, jqXHR) {
 			spawnData(data);
+			setDivs();
 		}
 	})
 }
@@ -220,20 +301,30 @@ function spawn(){
 //RUNS UPDATE FUNCTION ON LOAD
 window.onload = function(){
 	
-	update();
+	updateAll();
 	if (allDivs.length < 4) {
-		for (i = 0; i < 4-allDivs.length; i++){
-			spawn();
-		}
+//		for (i = 0; i < 4-allDivs.length; i++){
+//			spawn();
+//		}
 	}
 }
 
 
-
-//RUNS UPDATE FUNCTION AT SET INTERVALS
+//RUNS AT SET INTERVALS :: DEPRECATED BUT POSSIBLY USEFUL FOR FUTURE
 window.setInterval(function(){
-	update();
+	for (var i = 0; i < allDivs.length; i++){
+		move(allDivs[i]);
+		
+		
+	}
 },speed)
+
+window.setInterval(function(){
+	for (var i = 0; i < allDivs.length; i++){
+
+		makeSpace(allDivs[i]);
+	}
+}, 500)
 
 $('#spawner').click(function(event) {
             event.stopImmediatePropagation()   

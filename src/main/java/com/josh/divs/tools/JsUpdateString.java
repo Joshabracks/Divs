@@ -15,7 +15,7 @@ public class JsUpdateString {
 	public String getData() {
 		String dataString = "";
 		List<Div> allDivs = divs.allDivs();
-		for (int i = allDivs.size()-1; i > 0; i--) {
+		for (int i = allDivs.size()-1; i >= 0; i--) {
 			Div current = allDivs.get(i);
 			dataString = dataString + "!id?" + current.getId() + "#";
 			dataString = dataString + "!name?" + current.getName() + "#";
