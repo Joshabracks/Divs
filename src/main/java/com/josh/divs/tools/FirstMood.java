@@ -10,7 +10,7 @@ public class FirstMood {
 	List<String> moods;
 			
 	public FirstMood(){
-		List<String> list = Arrays.asList(new String[]{"^_^", ">_<", "o.O", ">_>", "<_<", "T_T", "O_O", "#_#", "Q-Q", "@.@", "@_@"});
+		List<String> list = Arrays.asList(new String[]{"^_^", ">_<", "o.O", ">_>", "<_<", "T_T", "O_O", "Q-Q", "@.@", "@_@"});
 		this.moods = list;
 	}
 	
