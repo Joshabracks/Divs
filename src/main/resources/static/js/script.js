@@ -186,7 +186,9 @@ function trigger(){
 	alert("Trigger!");
 }
 
-
+function updateSidebar(){
+	
+}
 
 //Update function
 function update(){
@@ -194,10 +196,11 @@ function update(){
 	      type: "POST",
 	      url: "/update",
 	      success: function(data, result, jqXHR) {
+	    	  console.log(data);
 	          //MARQUIS UPDATE FUNCTION
 	    	  updateData(data);
 	          updateMarquis();
-	          console.log("UPDATING");
+	          updateSidebar();
 	          //GAME UPDATE FUNCTION
 	          
 	          //SIDEBAR UPDATE FUNCTION
