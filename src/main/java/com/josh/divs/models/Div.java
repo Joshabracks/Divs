@@ -66,13 +66,7 @@ public class Div {
     private Integer targetX;
     private Integer targetY;
 //	private List<Div> relationships;
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "traits",
-        joinColumns = @JoinColumn(name = "div_id"), 
-        inverseJoinColumns = @JoinColumn(name = "trait_id")
-    )
-	private List<Trait> traits;
+
 	//FRIENDS
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -282,13 +276,7 @@ public class Div {
         this.divEnemies = userEnemies;
     }     
     //ENEMIES
-	public List<Trait> getTraits() {
-		return traits;
-	}
-
-	public void setTraits(List<Trait> traits) {
-		this.traits = traits;
-	}
+	
 
 	@PrePersist
     protected void onCreate(){

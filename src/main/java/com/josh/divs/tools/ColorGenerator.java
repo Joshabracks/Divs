@@ -13,7 +13,6 @@ public class ColorGenerator {
 		int r = rando.nextInt(255);
 		int g = rando.nextInt(255);
 		int b = rando.nextInt(255);
-		
 		String color = "rgb(" + r + "," + g +"," + b + ")";
 		return color;
 	}
