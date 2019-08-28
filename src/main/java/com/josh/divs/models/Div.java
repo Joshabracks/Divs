@@ -37,6 +37,10 @@ public class Div {
 	private String outline;
 	@Size(min=3)
 	private String mood;
+	@Size(min=3)
+	private String trait;
+	@Size(min=3)
+	private String status;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "dislikes", 
@@ -111,6 +115,32 @@ public class Div {
     	
     }
     
+    
+    
+	public String getTrait() {
+		return trait;
+	}
+
+
+
+	public void setTrait(String trait) {
+		this.trait = trait;
+	}
+
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
 	public Integer getX() {
 		return x;
 	}

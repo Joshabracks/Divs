@@ -401,10 +401,8 @@ function spawn(){
 
 //RUNS UPDATE FUNCTION ON LOAD
 window.onload = function(){
-	
 	updateAll();
-	if (allDivs.length < 4) {
-	}
+	
 }
 
 
@@ -423,7 +421,12 @@ window.setInterval(function(){
 }, 500)
 
 window.setInterval(function(){
+	if (spotlight == undefined) {
+		spotlight = allDivs[0];
+		updateSpotlight(spotlight.id)
+	}
 	document.getElementById("spotlight").innerHTML = "<h3>" + spotlight.status + "</h3>";
+	document.getElementById("spawner").innerHTML = "<h2>" + spotlight.id + "</h2>";
 }, 500)
 
 $('#spawner').click(function(event) {
@@ -431,17 +434,15 @@ $('#spawner').click(function(event) {
             spawn();
 })
 
-$('#gamer').click(function(event){
+function updateSpotlight(id){
 	var thisDiv;
 	for (var i = 0; i < allDivs.length; i++) {
-		if (allDivs[i].id == event.target.id){
+		if (allDivs[i].id == id){
 			thisDiv = allDivs[i];
 			spotlight = thisDiv;
 		}
 	}
 	var target = document.getElementById("display");
-	console.log(thisDiv.id);
-	console.log(event.target.id);
 
 	target.style.backgroundColor = thisDiv.color;
 	target.style.border = '5px solid ' + thisDiv.outline;
@@ -451,6 +452,10 @@ $('#gamer').click(function(event){
 	target = document.getElementById("infobox");
 	
 	target.innerHTML = '<br><h2>' + thisDiv.name + '</h2>';
+}
+
+$('#gamer').click(function(event){
+	updateSpotlight(event.target.id);
 })
 
 
