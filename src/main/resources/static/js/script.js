@@ -19,7 +19,7 @@ function move(div){
 	    if (div.x > div.xtarget) {
 	    	div.x--;
 	    }
-	    dot.style.left = (div.x+200) + "px";
+	    dot.style.left = (div.x) + "px";
     }
     if (div.y != div.ytarget){
 	    if (div.y < div.ytarget) {
@@ -28,7 +28,7 @@ function move(div){
 	    if (div.y > div.ytarget) {
 	    	div.y--;
 	    }
-	    dot.style.top = (div.y+74) + "px";
+	    dot.style.top = (div.y) + "px";
     }
 }
 //PROXIMITY AND SPACE MAKING BEHAVIOUR
@@ -125,7 +125,7 @@ function updateData(data){
 		else if (data.charAt(i) == "#"){
 			//compile current set of variables and add them to htmGo variable
 			if (command == "end") {
-				htmGo = htmGo + '<div id="div' + id + '" class="divvy" style="background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px;">' + mood + '</div>';
+				htmGo = htmGo + '<div id="' + id + '" class="divvy" style="background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px;">' + mood + '</div>';
 				
 				tempMar = tempMar + name + ", ";
 				
@@ -202,6 +202,13 @@ function spawnData(data){
 			if (command == "end") {
 				var newDiv = new div(id, name, color, outline, mood, radius);
 				allDivs.push(newDiv);
+//				var htmGo = '<div id="' + id + '" class="divvy" style="background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px;">' + mood + '</div>';
+//				document.getElementById("gamer").appendChild(htmGo);
+				
+				
+				
+				
+				
 				var id = "";
 				var name = "";
 				var color = "";
@@ -241,6 +248,89 @@ function spawnData(data){
 			}
 		}
 	}
+}
+
+function spawnDivData(data){
+	var setting = "";
+	var command = "";
+	var value = "";
+	//setting new div object
+	var id = "";
+	var name = "";
+	var color = "";
+	var outline = "";
+	var mood = "";
+	var radius = "";
+	for (var i = 0; i < data.length; i++){
+		//settings
+		if (data.charAt(i) == "!"){
+			setting = "command";
+			command = "";
+		}
+		else if (data.charAt(i) == "?"){
+			//execute or set command
+			setting = "value";
+		}
+		else if (data.charAt(i) == "#"){
+			//compile current set of variables and add them to htmGo variable
+			if (command == "end") {
+				var newDiv = new div(id, name, color, outline, mood, radius);
+				allDivs.push(newDiv);;
+				setDiv(newDiv);
+				var id = "";
+				var name = "";
+				var color = "";
+				var outline = "";
+				var mood = "";
+				var radius = "";
+			}
+			else {
+				command = "";
+				setting = "";
+			}
+		}
+		else {
+			if (setting == "command") {
+				command = command + data.charAt(i);
+			}
+			if (setting == "value") {
+					if (command == "id"){
+						id = id + data.charAt(i);
+					}
+					if (command == "name") {
+						name = name + data.charAt(i);
+					}
+					if (command == "color"){
+						color = color + data.charAt(i);
+					}
+					if (command == "outline"){
+						outline = outline + data.charAt(i);
+					}
+					if (command == "mood"){
+						mood = mood + data.charAt(i);
+					}
+					if (command == "radius"){
+						radius = radius + data.charAt(i);
+					}
+					
+			}
+		}
+	}
+}
+
+function setDiv(div) {
+	var htmGo = '<div class="divvy" id="' + div.id + '"></div>';
+	var newDiv = document.createElement('div');
+	newDiv.id = div.id;
+	newDiv.className = "divvy";
+	newDiv.style.left = '0px'; 
+	newDiv.style.top = '0px';
+	newDiv.style.backgroundColor = div.color;
+	newDiv.style.border = '5px solid ' + div.outline;
+	newDiv.style.borderRadius = div.radius + "px";
+	newDiv.innerHTML = div.mood;
+	
+	document.getElementById("gamer").appendChild(newDiv);
 }
 
 function setDivs() {
@@ -302,8 +392,8 @@ function spawn(){
 		type: "POST",
 		url: "/spawn",
 		success: function(data, result, jqXHR) {
-			spawnData(data);
-			setDivs();
+		spawnDivData(data);
+			
 		}
 	})
 }
@@ -313,9 +403,6 @@ window.onload = function(){
 	
 	updateAll();
 	if (allDivs.length < 4) {
-//		for (i = 0; i < 4-allDivs.length; i++){
-//			spawn();
-//		}
 	}
 }
 
@@ -335,13 +422,12 @@ window.setInterval(function(){
 }, 500)
 
 $('#spawner').click(function(event) {
-            event.stopImmediatePropagation()   
-            event.stopPropagation()
+            
             spawn();
         })
         
 
         
-function reply_click(clicked_id){alert(clicked_id);}
+
         
 //$("#things").ajaxForm({url: '/thing/new', type: 'post'})
