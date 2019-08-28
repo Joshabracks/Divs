@@ -44,7 +44,17 @@ function makeSpace(div){
 		if (allDivs[i] != div){
 			var yprox = yProx(div.y, allDivs[i].y);
 			var xprox = xProx(div.x, allDivs[i].x);
-			if ((xprox < 50) && (yprox < 50)) {
+			if (div.x < 0) {
+				div.xtarget = 10;
+			}
+			else if (div.y < 0){
+				div.ytarget = 10;
+			}
+			else if ((xprox == 0) && (yprox ==0)){
+				div.xtarget = (div.x + Math.floor(Math.random() * 100) - 50);
+				div.ytarget = (div.y + Math.floor(Math.random() * 100) - 50);
+			}
+			else if ((xprox < 50) && (yprox < 50)) {
 				if (xprox >= yprox) {
 					if (div.x == allDivs[i].x) {
 						div.xtarget = (div.x + Math.floor(Math.random() * 100) - 50);
