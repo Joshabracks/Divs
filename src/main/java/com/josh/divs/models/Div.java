@@ -3,7 +3,7 @@ package com.josh.divs.models;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+
+
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -41,25 +41,21 @@ public class Div {
 	private String trait;
 	@Size(min=3)
 	private String status;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "dislikes", 
-        joinColumns = @JoinColumn(name = "div_id"), 
-        inverseJoinColumns = @JoinColumn(name = "thing_id")
-    )
-    private List<Thing> dislikes;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "likes", 
-        joinColumns = @JoinColumn(name = "div_id"), 
-        inverseJoinColumns = @JoinColumn(name = "thing_id")
-    )
-    private List<Thing> likes;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="tribe_id")
-    private Tribe tribe;
-    @OneToOne(mappedBy="leader", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    private Tribe leaderOf;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//        name = "dislikes", 
+//        joinColumns = @JoinColumn(name = "div_id"), 
+//        inverseJoinColumns = @JoinColumn(name = "thing_id")
+//    )
+//    private List<Thing> dislikes;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//        name = "likes", 
+//        joinColumns = @JoinColumn(name = "div_id"), 
+//        inverseJoinColumns = @JoinColumn(name = "thing_id")
+//    )
+//    private List<Thing> likes;
+
 	private Integer age;
 	@Max(25)
 	private Integer radius;
@@ -110,6 +106,11 @@ public class Div {
     private Date createdAt;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
+    
+    private String enjoy;
+    private String love;
+    private String dislike;
+    private String hate;
 
     public Div() {
     	
@@ -223,33 +224,75 @@ public class Div {
 		this.mood = mood;
 	}
 
-	public List<Thing> getDislikes() {
-		return dislikes;
-	}
+//	public List<Thing> getDislikes() {
+//		return dislikes;
+//	}
+//
+//	public void setDislikes(List<Thing> dislikes) {
+//		this.dislikes = dislikes;
+//	}
+//
+//	public List<Thing> getLikes() {
+//		return likes;
+//	}
+//
+//	public void setLikes(List<Thing> likes) {
+//		this.likes = likes;
+//	}
 
-	public void setDislikes(List<Thing> dislikes) {
-		this.dislikes = dislikes;
-	}
-
-	public List<Thing> getLikes() {
-		return likes;
-	}
-
-	public void setLikes(List<Thing> likes) {
-		this.likes = likes;
-	}
-
-	public Tribe getTribe() {
-		return tribe;
-	}
-
-	public void setTribe(Tribe tribe) {
-		this.tribe = tribe;
-	}
-
+	
+	
 	public Integer getAge() {
 		return age;
 	}
+
+	public String getEnjoy() {
+		return enjoy;
+	}
+
+
+
+	public void setEnjoy(String enjoy) {
+		this.enjoy = enjoy;
+	}
+
+
+
+	public String getLove() {
+		return love;
+	}
+
+
+
+	public void setLove(String love) {
+		this.love = love;
+	}
+
+
+
+	public String getDislike() {
+		return dislike;
+	}
+
+
+
+	public void setDislike(String dislike) {
+		this.dislike = dislike;
+	}
+
+
+
+	public String getHate() {
+		return hate;
+	}
+
+
+
+	public void setHate(String hate) {
+		this.hate = hate;
+	}
+
+
 
 	public void setAge(Integer age) {
 		this.age = age;

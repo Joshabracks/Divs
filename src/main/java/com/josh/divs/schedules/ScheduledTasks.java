@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.josh.divs.models.Div;
 import com.josh.divs.repositories.DivRepository;
 import com.josh.divs.services.DivService;
+import com.josh.divs.services.ThingService;
 import com.josh.divs.tools.FirstTrait;
 import com.josh.divs.tools.NameGenerator;
 
@@ -18,16 +19,30 @@ public class ScheduledTasks {
 	DivService divs;
 	DivRepository repo;
 	NameGenerator names;
-	public ScheduledTasks(DivService divs, DivRepository repo){
+	ThingService things;
+	public ScheduledTasks(DivService divs, DivRepository repo, ThingService things){
 		this.divs = divs;
 		NameGenerator nam = new NameGenerator();
 		this.names = nam;
 		this.repo = repo;
+		this.things = things;
 	}
 	
     
-    @Scheduled(fixedRate = 20)
+    @Scheduled(fixedRate = 60000)
     public void scheduleTaskWithFixedRate() {
+    	
+    	if (things.allThings().size() < 3) {
+    		things.createThing("cats");
+    		things.createThing("cake");
+    		things.createThing("pie");
+    		things.createThing("cars");
+    		things.createThing("trains");
+    		things.createThing("dogs");
+    		things.createThing("music");
+    		things.createThing("food");
+    		
+    	}
     	if (divs.allDivs() == null) {
     		divs.createDiv(names.name());
     	}
@@ -55,6 +70,7 @@ public class ScheduledTasks {
 	    			System.out.println(current.getName() + ": " + current.getTrait());
 	    		}
     		}
+    		
     	}
     }
 
