@@ -24,11 +24,17 @@
 </div>
 </div>
 	
-<div class="sidebar"></div>
+<div class="sidebar" id="side">
+<div class="block">
 <div class="health" id="spawner">
 <h2>50</h2>
 </div>
-<div class="div">^_^</div>
+<button class="div" id="display"></button>
+</div>
+<div class="block" id="infobox"></div>
+<div class="block" id="spotlight"></div>
+</div>
+
 <div class="bottom" id="marquis">
 
 </div>

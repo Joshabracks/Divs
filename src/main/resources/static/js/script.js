@@ -3,6 +3,7 @@ var xtarget = 0;
 var ytarget = 0;
 var x = 0;
 var y = 0;
+var spotlight;
 
 var speed = 20; //CONTROLS MOVE SPEED OF DIVS | UPDATES BY MILLISECONDS (1000 MS = 1 SECOND)
 var allDivs = [];
@@ -39,22 +40,26 @@ function yProx(y1, y2){
 	return Math.abs(y1 - y2);
 }
 function makeSpace(div){
-	var other = allDivs[0];
 	for (var i = 0; i < allDivs.length; i++){
 		if (allDivs[i] != div){
+			var other = allDivs[i].name;
 			var yprox = yProx(div.y, allDivs[i].y);
 			var xprox = xProx(div.x, allDivs[i].x);
 			if (div.x < 0) {
 				div.xtarget = 10;
+				div.status = "Out of bounds. Returning";
 			}
 			else if (div.y < 0){
 				div.ytarget = 10;
+				div.status = "Out of bounds. Returning";
 			}
-			else if ((xprox == 0) && (yprox ==0)){
+			else if ((xprox == 0) && (yprox == 0)){
 				div.xtarget = (div.x + Math.floor(Math.random() * 100) - 50);
 				div.ytarget = (div.y + Math.floor(Math.random() * 100) - 50);
+				div.status = "Giving " + other + " some space."
 			}
 			else if ((xprox < 50) && (yprox < 50)) {
+				div.status = "Giving " + other + " some space."
 				if (xprox >= yprox) {
 					if (div.x == allDivs[i].x) {
 						div.xtarget = (div.x + Math.floor(Math.random() * 100) - 50);
@@ -125,7 +130,7 @@ function updateData(data){
 		else if (data.charAt(i) == "#"){
 			//compile current set of variables and add them to htmGo variable
 			if (command == "end") {
-				htmGo = htmGo + '<div id="' + id + '" class="divvy" style="background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px;">' + mood + '</div>';
+				htmGo = htmGo + '<button id="' + id + '" class="divvy" style="background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px;">' + mood + '</button>';
 				
 				tempMar = tempMar + name + ", ";
 				
@@ -319,8 +324,8 @@ function spawnDivData(data){
 }
 
 function setDiv(div) {
-	var htmGo = '<div class="divvy" id="' + div.id + '"></div>';
-	var newDiv = document.createElement('div');
+	var htmGo = '<button class="divvy" id="' + div.id + '"></button>';
+	var newDiv = document.createElement('button');
 	newDiv.id = div.id;
 	newDiv.className = "divvy";
 	newDiv.style.left = '0px'; 
@@ -337,7 +342,7 @@ function setDivs() {
 	var htmGo = "";
 	for (var i = 0; i < allDivs.length; i++){
 		var current = allDivs[i];
-		htmGo = htmGo + '<div class="divvy" id="' + current.id + '"></div>';
+		htmGo = htmGo + '<button class="divvy" id="' + current.id + '"></button>';
 	}
 	document.getElementById("gamer").innerHTML = htmGo;
 }
@@ -361,9 +366,7 @@ function trigger(){
 	alert("Trigger!");
 }
 
-function updateSidebar(){
-	
-}
+
 
 //GETS ALL DIVS FROM SERVER :: RUN ON PAGE LOAD ONLY
 function updateAll(){
@@ -375,12 +378,10 @@ function updateAll(){
 	    	  setDivs();
 	    	  updateDivs();
 	          updateMarquis();
-	          updateSidebar();
 	          //UPDATE DIVS FUNCTION :: UPDATES DIVS WITHOUT ADDING NEW DIVS 
 //	          updateDivs();
 	          //GAME UPDATE FUNCTION
 	          
-	          //SIDEBAR UPDATE FUNCTION
 	        }
 	    })
 }
@@ -421,10 +422,38 @@ window.setInterval(function(){
 	}
 }, 500)
 
+window.setInterval(function(){
+	document.getElementById("spotlight").innerHTML = "<h3>" + spotlight.status + "</h3>";
+}, 500)
+
 $('#spawner').click(function(event) {
             
             spawn();
-        })
+})
+
+$('#gamer').click(function(event){
+	var thisDiv;
+	for (var i = 0; i < allDivs.length; i++) {
+		if (allDivs[i].id == event.target.id){
+			thisDiv = allDivs[i];
+			spotlight = thisDiv;
+		}
+	}
+	var target = document.getElementById("display");
+	console.log(thisDiv.id);
+	console.log(event.target.id);
+
+	target.style.backgroundColor = thisDiv.color;
+	target.style.border = '5px solid ' + thisDiv.outline;
+	target.style.borderRadius = thisDiv.radius + "px";
+	target.innerHTML = thisDiv.mood;
+	
+	target = document.getElementById("infobox");
+	
+	target.innerHTML = '<br><h2>' + thisDiv.name + '</h2>';
+})
+
+
         
 
         
