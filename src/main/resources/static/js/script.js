@@ -401,7 +401,6 @@ function spawn(){
 
 //RUNS UPDATE FUNCTION ON LOAD
 window.onload = function(){
-	
 	updateAll();
 	
 }
