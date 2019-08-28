@@ -424,7 +424,7 @@ window.setInterval(function(){
 window.setInterval(function(){
 	if (spotlight == undefined) {
 		spotlight = allDivs[0];
-		updateSpotlight(spotlight.id);
+		updateSpotlight(spotlight.id)
 	}
 	document.getElementById("spotlight").innerHTML = "<h3>" + spotlight.status + "</h3>";
 	document.getElementById("spawner").innerHTML = "<h2>" + spotlight.id + "</h2>";
