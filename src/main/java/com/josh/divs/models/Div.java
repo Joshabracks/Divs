@@ -111,6 +111,7 @@ public class Div {
     private String love;
     private String dislike;
     private String hate;
+    private Long targetId;
 
     public Div() {
     	
@@ -142,8 +143,20 @@ public class Div {
 
 
 
+	public Long getTargetId() {
+		return targetId;
+	}
+
+
+
+	public void setTargetId(Long targetId) {
+		this.targetId = targetId;
+	}
+
+
+
 	public Integer getX() {
-		return x;
+		return this.x;
 	}
 
 	public void setX(Integer x) {
@@ -151,7 +164,7 @@ public class Div {
 	}
 
 	public Integer getY() {
-		return y;
+		return this.y;
 	}
 
 	public void setY(Integer y) {
@@ -167,7 +180,7 @@ public class Div {
 	}
 
 	public Integer getTargetY() {
-		return targetY;
+		return this.targetY;
 	}
 
 	public void setTargetY(Integer targetY) {

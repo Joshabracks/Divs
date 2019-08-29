@@ -4,6 +4,7 @@ var ytarget = 0;
 var x = 0;
 var y = 0;
 var spotlight;
+var moveOrder = 0;
 
 var speed = 20; //CONTROLS MOVE SPEED OF DIVS | UPDATES BY MILLISECONDS (1000 MS = 1 SECOND)
 var allDivs = [];
@@ -89,7 +90,7 @@ function makeSpace(div){
 
 
  
-function div(id, name, color, outline, mood, radius) {
+function div(id, name, color, outline, mood, radius, x, y) {
 	this.id = id;
 	this.name = name;
 	this.color = color;
@@ -98,8 +99,8 @@ function div(id, name, color, outline, mood, radius) {
 	this.radius = radius;
 	this.xtarget = 0;
 	this.ytarget = 0;
-	this.x = 0;
-	this.y = 0;
+	this.x = x;
+	this.y = y;
 }
 
 //PARSES THROUGH DATA ON UPDATE FUNCTION
@@ -115,6 +116,8 @@ function updateData(data){
 	var outline = "";
 	var mood = "";
 	var radius = 0;
+	var x = 0;
+	var y = 0;
 	
 	var htmGo = "";
 	for (var i = 0; i < data.length; i++){
@@ -130,7 +133,7 @@ function updateData(data){
 		else if (data.charAt(i) == "#"){
 			//compile current set of variables and add them to htmGo variable
 			if (command == "end") {
-				htmGo = htmGo + '<button id="' + id + '" class="divvy" style="background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px;">' + mood + '</button>';
+				htmGo = htmGo + '<button id="' + id + '" class="divvy" style=" top: ' + y + '; left: ' + x +';background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px;">' + mood + '</button>';
 				
 				tempMar = tempMar + name + ", ";
 				
@@ -140,6 +143,8 @@ function updateData(data){
 				outline = "";
 				mood = "";
 				radius = 0;
+				x = 0;
+				y = 0;
 				command = "";
 				setting = "";
 			}
@@ -170,6 +175,12 @@ function updateData(data){
 					}
 					if (command == "radius"){
 						radius = radius + data.charAt(i);
+					}
+					if (command =="x"){
+						x = x + data.charAt(i);
+					}
+					if (command =="y"){
+						y = y + data.charAt(i);
 					}
 					
 			}
@@ -190,6 +201,8 @@ function spawnData(data){
 	var outline = "";
 	var mood = "";
 	var radius = "";
+	var x = 0;
+	var y = 0;
 	
 //	var htmGo = "";
 	for (var i = 0; i < data.length; i++){
@@ -205,7 +218,7 @@ function spawnData(data){
 		else if (data.charAt(i) == "#"){
 			//compile current set of variables and add them to htmGo variable
 			if (command == "end") {
-				var newDiv = new div(id, name, color, outline, mood, radius);
+				var newDiv = new div(id, name, color, outline, mood, radius, x, y);
 				allDivs.push(newDiv);
 //				var htmGo = '<div id="' + id + '" class="divvy" style="background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px;">' + mood + '</div>';
 //				document.getElementById("gamer").appendChild(htmGo);
@@ -220,6 +233,8 @@ function spawnData(data){
 				var outline = "";
 				var mood = "";
 				var radius = "";
+				var x = 0;
+				var y = 0;
 			}
 			else {
 				command = "";
@@ -249,7 +264,12 @@ function spawnData(data){
 					if (command == "radius"){
 						radius = radius + data.charAt(i);
 					}
-					
+					if (command == "x"){
+						x = x + data.charAt(i);
+					}
+					if (command == "y"){
+						y = y + data.charAt(i);
+					}
 			}
 		}
 	}
@@ -266,6 +286,8 @@ function spawnDivData(data){
 	var outline = "";
 	var mood = "";
 	var radius = "";
+	var x = "";
+	var y = "";
 	for (var i = 0; i < data.length; i++){
 		//settings
 		if (data.charAt(i) == "!"){
@@ -279,8 +301,8 @@ function spawnDivData(data){
 		else if (data.charAt(i) == "#"){
 			//compile current set of variables and add them to htmGo variable
 			if (command == "end") {
-				var newDiv = new div(id, name, color, outline, mood, radius);
-				allDivs.push(newDiv);;
+				var newDiv = new div(id, name, color, outline, mood, radius, x, y);
+				allDivs.push(newDiv);
 				setDiv(newDiv);
 				var id = "";
 				var name = "";
@@ -316,6 +338,104 @@ function spawnDivData(data){
 					}
 					if (command == "radius"){
 						radius = radius + data.charAt(i);
+					}
+					if (command == "x"){
+						x = x + data.charAt(i);
+					}
+					if (command == "y"){
+						y = y + data.charAt(i);
+					}
+					
+			}
+		}
+	}
+}
+
+//UPDATE BEHAVIORS
+function updateBehaviors(data){
+	var setting = "";
+	var command = "";
+	var value = "";
+	//setting new div object
+	var id = "";
+	var name = "";
+	var color = "";
+	var outline = "";
+	var mood = "";
+	var radius = "";
+	var x = "";
+	var y = "";
+	for (var i = 0; i < data.length; i++){
+		//settings
+		if (data.charAt(i) == "!"){
+			setting = "command";
+			command = "";
+		}
+		else if (data.charAt(i) == "?"){
+			//execute or set command
+			setting = "value";
+		}
+		else if (data.charAt(i) == "#"){
+			//compile current set of variables and add them to htmGo variable
+			if (command == "end") {
+				length = allDivs.length;
+				
+				
+				for (var j = 0; j < allDivs.length; j++){
+					if (allDivs[j].id == id) {
+						allDivs[j].name = name;
+						allDivs[j].color = color;
+						allDivs[j].outline = outline;
+						allDivs[j].mood = mood;
+						allDivs[j].radius = radius;
+						allDivs[j].xtarget = x;
+						allDivs[j].ytarget = y;
+					}
+				}
+
+				id = "";
+				name = "";
+				color = "";
+				outline = "";
+				mood = "";
+				radius = "";
+				x = "";
+				y = "";
+				
+			}
+			else {
+				command = "";
+				setting = "";
+			}
+		}
+		else {
+			if (setting == "command") {
+				command = command + data.charAt(i);
+			}
+			if (setting == "value") {
+					if (command == "id"){
+						id = id + data.charAt(i);
+					}
+					if (command == "name") {
+						name = name + data.charAt(i);
+					}
+					if (command == "color"){
+						color = color + data.charAt(i);
+					}
+					if (command == "outline"){
+						outline = outline + data.charAt(i);
+					}
+					if (command == "mood"){
+						mood = mood + data.charAt(i);
+					}
+					if (command == "radius"){
+						radius = radius + data.charAt(i);
+					}
+					if (command == "x"){
+						x = x + data.charAt(i);
+					}
+					if (command =="y"){
+						y = y + data.charAt(i);
 					}
 					
 			}
@@ -354,8 +474,11 @@ function updateDivs() {
 		target.style.border = '5px solid ' + current.outline;
 		target.style.borderRadius = current.radius + "px";
 		target.innerHTML = current.mood;
+		target.style.top = current.y;
+		target.style.left = current.x;
 	}
 }
+
 
 function updateMarquis() {
 	document.getElementById("marquis").innerHTML  = tempMar;
@@ -406,28 +529,51 @@ window.onload = function(){
 }
 
 
-//RUNS AT SET INTERVALS :: DEPRECATED BUT POSSIBLY USEFUL FOR FUTURE
+
 window.setInterval(function(){
-	for (var i = 0; i < allDivs.length; i++){
-		move(allDivs[i]);
-	}
+	$.ajax({
+		type: "POST",
+		url: "/update",
+		success: function(data, result, jqXHR) {
+		
+			for (var i = 0; i < allDivs.length; i++){
+				
+				updateBehaviors(data);
+				
+				
+			}
+		}
+	})
+	
+},1000 )
+
+
+window.setInterval(function(){
+	
+			for (var i = 0; i < allDivs.length; i++){
+				
+				move(allDivs[i]);
+			}
+
+	
 },speed)
+
 
 window.setInterval(function(){
 	for (var i = 0; i < allDivs.length; i++){
 
 		makeSpace(allDivs[i]);
 	}
-}, 500)
+}, 50)
 
 window.setInterval(function(){
 	if (spotlight == undefined) {
 		spotlight = allDivs[0];
-		updateSpotlight(spotlight.id)
+		updateSpotlight(spotlight.id);
 	}
 	document.getElementById("spotlight").innerHTML = "<h3>" + spotlight.status + "</h3>";
 	document.getElementById("spawner").innerHTML = "<h2>" + spotlight.id + "</h2>";
-}, 500)
+}, 1000)
 
 $('#spawner').click(function(event) {
             

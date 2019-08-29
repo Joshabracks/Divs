@@ -50,6 +50,8 @@ public class DivService {
 		newDiv.setMood(mood.get());
 		newDiv.setRadius(rando.nextInt(25));
 		newDiv.setTrait(trait.get());
+		newDiv.setX(rando.nextInt(500));
+		newDiv.setY(rando.nextInt(500));
 		List<Thing> allThings = things.allThings();
 		newDiv.setEnjoy(allThings.get(rando.nextInt(allThings.size())).getName());
 		String next = allThings.get(rando.nextInt(allThings.size())).getName();

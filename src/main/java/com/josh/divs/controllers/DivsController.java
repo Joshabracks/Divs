@@ -49,4 +49,6 @@ public class DivsController {
 		return ResponseEntity.ok(result);
 	}
 	
+
+	
 }
