@@ -68,46 +68,46 @@ public class FriendlyPredicate{
 					chatScore++;
 				}
 				if (chatScore > 0) {
-					List<Div> friends = self.getFriends();
+					List<Long> friends = self.getFriends();
 					boolean isFriend = false;
 					for (int i = 0; i < friends.size(); i++) {
-						if (friends.get(i) == target) {
+						if (friends.get(i) == target.getId()) {
 							isFriend = true;
 						}
 					}
 					if (isFriend != true) {
-						List<Div> enemies = self.getEnemies();
+						List<Long> enemies = self.getEnemies();
 						for (int i = 0; i < enemies.size(); i++) {
-							if (enemies.get(i) == target) {
+							if (enemies.get(i) == target.getId()) {
 								enemies.remove(i);
 								self.setEnemies(enemies);
 							}
 						}
-						friends.add(target);
+						friends.add(target.getId());
 						self.setFriends(friends);
 						divs.save(self);
 					}
 				}
 				if (chatScore < 0) {
 					self.setMood("T_T");
-					List<Div> friends = self.getFriends();
+					List<Long> friends = self.getFriends();
 					
 					for (int i = 0; i < friends.size(); i++) {
-						if (friends.get(i) == target) {
+						if (friends.get(i) == target.getId()) {
 							friends.remove(i);
 							self.setFriends(friends);
 							
 						}
 					}
-					List<Div> enemies = self.getEnemies();
+					List<Long> enemies = self.getEnemies();
 					boolean isEnemy = false;
 					for (int i = 0; i < enemies.size(); i++) {
-						if (enemies.get(i) == target) {
+						if (enemies.get(i) == target.getId()) {
 							isEnemy = true;
 						}
 					}
 					if (isEnemy != true) {
-						enemies.add(target);
+						enemies.add(target.getId());
 						self.setEnemies(enemies);
 						divs.save(self);
 					}

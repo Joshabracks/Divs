@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.josh.divs.models.Div;
+import com.josh.divs.repositories.DivRepository;
 
 public class ActionTools {
 	
@@ -76,5 +77,28 @@ public class ActionTools {
 			score = score -1;
 		}
 		return score;
+	}
+	
+	public void saveDiv(Divvy divvy, DivRepository repo) {
+		Div div = repo.findById(divvy.id).get();
+		div.setId(divvy.id);
+		div.setName(divvy.name);
+		div.setTrait(divvy.trait);
+		div.setRadius(divvy.radius);
+		div.setColor(divvy.color);
+		div.setOutline(divvy.outline);
+		div.setMood(divvy.mood);
+		div.setStatus(divvy.status);
+		div.setX(divvy.x);
+		div.setY(divvy.y);
+		div.setTargetX(divvy.targetX);
+		div.setTargetY(divvy.targetY);
+		div.setFriends(divvy.friends);
+		div.setLove(divvy.love);
+		div.setEnjoy(divvy.like);
+		div.setDislike(divvy.dislike);
+		div.setHate(divvy.hate);
+		div.setTargetId(divvy.targetId);
+		repo.save(div);
 	}
 }

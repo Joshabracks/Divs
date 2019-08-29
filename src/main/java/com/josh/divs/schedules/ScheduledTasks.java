@@ -12,6 +12,8 @@ import com.josh.divs.routines.Predicate;
 import com.josh.divs.routines.WigglingPredicate;
 import com.josh.divs.services.DivService;
 import com.josh.divs.services.ThingService;
+import com.josh.divs.tools.ActionTools;
+import com.josh.divs.tools.Divvy;
 import com.josh.divs.tools.FirstTrait;
 import com.josh.divs.tools.NameGenerator;
 
@@ -23,42 +25,69 @@ public class ScheduledTasks {
 	DivRepository repo;
 	NameGenerator names;
 	ThingService things;
+	List<Divvy> allDivvy;
+	ActionTools tools;
 	public ScheduledTasks(DivService divs, DivRepository repo, ThingService things){
 		this.divs = divs;
 		NameGenerator nam = new NameGenerator();
 		this.names = nam;
 		this.repo = repo;
 		this.things = things;
+		ActionTools too = new ActionTools();
+		this.tools = too;
 	}
 	
-	@Scheduled(fixedRate = 100)
-    public void move() {
+
+	
+	private void load() {
 		List<Div> allDivs = divs.allDivs();
 		for (int i = 0; i < allDivs.size(); i++) {
-		Div current = allDivs.get(i);
-		if (current.getX() < current.getTargetX()) {
-			int x = current.getX() + 20;
-			current.setX(x);
-			repo.save(current);
-		}
-		if (current.getX() > current.getTargetX()) {
-			int x = current.getX() - 20;
-			current.setX(x);
-			repo.save(current);
-		}
-		if (current.getY() > current.getTargetY()) {
-			int x = current.getY() - 20;
-			current.setY(x);
-			repo.save(current);
-		}
-		if (current.getY() < current.getTargetY()) {
-			int x = current.getY() + 20;
-			current.setY(x);
-			repo.save(current);
-		}
-		
+			Divvy newDivvy = new Divvy(allDivs.get(i));
+				this.allDivvy.add(newDivvy);
 		}
 	}
+	
+	@Scheduled(fixedRate = 6000)
+	public void save() {
+		if (this.allDivvy.isEmpty()) {
+			load();
+		}
+		else {
+			for (int i = 0; i < allDivvy.size(); i++) {
+				tools.saveDiv(allDivvy.get(i), repo); 
+			} 
+		}
+	}
+	
+	
+//	@Scheduled(fixedRate = 1000)
+//    public void move() {
+//		List<Div> allDivs = divs.allDivs();
+//		for (int i = 0; i < allDivs.size(); i++) {
+//		Div current = allDivs.get(i);
+//		if (current.getX() < current.getTargetX()) {
+//			int x = current.getX() + 200;
+//			current.setX(x);
+//			repo.save(current);
+//		}
+//		if (current.getX() > current.getTargetX()) {
+//			int x = current.getX() - 200;
+//			current.setX(x);
+//			repo.save(current);
+//		}
+//		if (current.getY() > current.getTargetY()) {
+//			int x = current.getY() - 200;
+//			current.setY(x);
+//			repo.save(current);
+//		}
+//		if (current.getY() < current.getTargetY()) {
+//			int x = current.getY() + 200;
+//			current.setY(x);
+//			repo.save(current);
+//		}
+//		
+//		}
+//	}
     @Scheduled(fixedRate = 750)
     public void scheduleTaskWithFixedRate() {
     	
