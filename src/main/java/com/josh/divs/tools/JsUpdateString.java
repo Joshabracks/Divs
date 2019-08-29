@@ -23,6 +23,8 @@ public class JsUpdateString {
 			dataString = dataString + "!outline?" + current.getOutline() + "#";
 			dataString = dataString + "!mood?" + current.getMood() + "#";
 			dataString = dataString + "!radius?" + current.getRadius() + "#";
+			dataString = dataString + "!x?" + current.getX() + "#";
+			dataString = dataString + "!y?" + current.getY() + "#";
 			dataString = dataString + "!end#";
 		}
 		
@@ -37,6 +39,8 @@ public class JsUpdateString {
 		dataString = dataString + "!outline?" + div.getOutline() + "#";
 		dataString = dataString + "!mood?" + div.getMood() + "#";
 		dataString = dataString + "!radius?" + div.getRadius() + "#";
+		dataString = dataString + "!x?" + div.getX() + "#";
+		dataString = dataString + "!y?" + div.getY() + "#";
 		dataString = dataString + "!end#";
 		return dataString;
 	}

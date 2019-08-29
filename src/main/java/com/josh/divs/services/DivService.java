@@ -6,6 +6,7 @@ import java.util.Random;
 import org.springframework.stereotype.Service;
 
 import com.josh.divs.models.Div;
+import com.josh.divs.models.Thing;
 import com.josh.divs.repositories.DivRepository;
 import com.josh.divs.tools.ColorGenerator;
 import com.josh.divs.tools.FirstMood;
@@ -19,8 +20,9 @@ public class DivService {
 	Random rando;
 	FirstMood mood;
 	FirstTrait trait;
+	ThingService things;
 	
-	public DivService(DivRepository divs) {
+	public DivService(DivRepository divs, ThingService things) {
 		this.divs = divs;
 		ColorGenerator col = new ColorGenerator();
 		this.colors = col;
@@ -30,6 +32,7 @@ public class DivService {
 		this.mood = moo;
 		FirstTrait tra = new FirstTrait();
 		this.trait = tra;
+		this.things = things;
 	}
 	
 	//get all divs
@@ -47,7 +50,23 @@ public class DivService {
 		newDiv.setMood(mood.get());
 		newDiv.setRadius(rando.nextInt(25));
 		newDiv.setTrait(trait.get());
-		
+		newDiv.setX(rando.nextInt(500));
+		newDiv.setY(rando.nextInt(500));
+		List<Thing> allThings = things.allThings();
+		newDiv.setEnjoy(allThings.get(rando.nextInt(allThings.size())).getName());
+		String next = allThings.get(rando.nextInt(allThings.size())).getName();
+		while(next == newDiv.getEnjoy()) {
+			next = allThings.get(rando.nextInt(allThings.size())).getName();
+		}
+		newDiv.setLove(next);
+		while((next == newDiv.getEnjoy()) || (next == newDiv.getLove())) {
+			next = allThings.get(rando.nextInt(allThings.size())).getName();
+		}
+		newDiv.setDislike(next);
+		while((next == newDiv.getEnjoy()) || (next == newDiv.getLove()) || (next == newDiv.getDislike())) {
+			next = allThings.get(rando.nextInt(allThings.size())).getName();
+		}
+		newDiv.setHate(next);
 		divs.save(newDiv);
 		return newDiv;
 		
