@@ -3,31 +3,27 @@ package com.josh.divs.tools;
 import java.util.List;
 
 import com.josh.divs.models.Div;
-import com.josh.divs.services.DivService;
 
 public class JsUpdateString {
-	DivService divs;
+
 	
-	public JsUpdateString(DivService divs) {
-		this.divs = divs;
+	public JsUpdateString() {
 	}
 	
-	public String getData() {
+	public String getData(List<Divvy> divs) {
 		String dataString = "";
-		List<Div> allDivs = divs.allDivs();
-		for (int i = allDivs.size()-1; i >= 0; i--) {
-			Div current = allDivs.get(i);
-			dataString = dataString + "!id?" + current.getId() + "#";
-			dataString = dataString + "!name?" + current.getName() + "#";
-			dataString = dataString + "!color?" + current.getColor() + "#";
-			dataString = dataString + "!outline?" + current.getOutline() + "#";
-			dataString = dataString + "!mood?" + current.getMood() + "#";
-			dataString = dataString + "!radius?" + current.getRadius() + "#";
-			dataString = dataString + "!x?" + current.getX() + "#";
-			dataString = dataString + "!y?" + current.getY() + "#";
+		for (int i = divs.size()-1; i >= 0; i--) {
+			Divvy current = divs.get(i);
+			dataString = dataString + "!id?" + current.id + "#";
+			dataString = dataString + "!name?" + current.name + "#";
+			dataString = dataString + "!color?" + current.color + "#";
+			dataString = dataString + "!outline?" + current.outline + "#";
+			dataString = dataString + "!mood?" + current.mood + "#";
+			dataString = dataString + "!radius?" + current.radius + "#";
+			dataString = dataString + "!x?" + current.x + "#";
+			dataString = dataString + "!y?" + current.y + "#";
 			dataString = dataString + "!end#";
 		}
-		
 		return dataString;
 	}
 	

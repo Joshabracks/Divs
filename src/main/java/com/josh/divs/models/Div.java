@@ -1,18 +1,13 @@
 package com.josh.divs.models;
 
 import java.util.Date;
-import java.util.List;
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 
 
 import javax.persistence.PrePersist;
@@ -65,42 +60,6 @@ public class Div {
     private Integer y;
     private Integer targetX;
     private Integer targetY;
-//	private List<Div> relationships;
-
-	//FRIENDS
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-    name = "friendships", 
-    joinColumns = @JoinColumn(name = "div_id"), 
-    inverseJoinColumns = @JoinColumn(name = "friend_id")
-    )
-    private List<Div> friends;
-    
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-    name = "friendships", 
-    joinColumns = @JoinColumn(name = "friend_id"), 
-    inverseJoinColumns = @JoinColumn(name = "div_id")
-    )
-    private List<Div> divFriends;
-    //FRIENDS
-    //ENEMIES
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-    name = "enemies", 
-    joinColumns = @JoinColumn(name = "div_id"), 
-    inverseJoinColumns = @JoinColumn(name = "enemy_id")
-    )
-    private List<Div> enemies;
-    
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-    name = "enemies", 
-    joinColumns = @JoinColumn(name = "enemy_id"), 
-    inverseJoinColumns = @JoinColumn(name = "div_id")
-    )
-    private List<Div> divEnemies;
-    //ENEMIES
 	@Column(updatable=false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createdAt;
@@ -327,48 +286,17 @@ public class Div {
 		this.health = health;
 	}
 
-//	public List<Div> getRelationships() {
-//		return relationships;
-//	}
-//
-//	public void setRelationships(List<Div> relationships) {
-//		this.relationships = relationships;
-//	}
-	//FRIENDS
-	public List<Div> getFriends() {
-        return friends;
-    }
-    public void setFriends(List<Div> friends) {
-        this.friends = friends;
-    }
-    public List<Div> getDivFriends() {
-        return divFriends;
-    }
-    public void setUserFriends(List<Div> userFriends) {
-        this.divFriends = userFriends;
-    }     
-    //FRIENDS
-	//ENEMIES
-	public List<Div> getEnemies() {
-        return friends;
-    }
-    public void setEnemies(List<Div> enemies) {
-        this.enemies = enemies;
-    }
-    public List<Div> getDivEnemies() {
-        return divEnemies;
-    }
-    public void setUserEnemies(List<Div> userEnemies) {
-        this.divEnemies = userEnemies;
-    }     
-    //ENEMIES
+
 	
 
 	@PrePersist
     protected void onCreate(){
         this.createdAt = new Date();
     }
-    @PreUpdate
+
+
+
+	@PreUpdate
     protected void onUpdate(){
         this.updatedAt = new Date();
     }
