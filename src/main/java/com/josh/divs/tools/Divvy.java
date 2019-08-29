@@ -5,25 +5,25 @@ import java.util.List;
 import com.josh.divs.models.Div;
 
 public class Divvy {
-	Long id;
-	String name;
-	String trait;
-	Integer radius;
-	String color;
-	String outline;
-	String mood;
-	String status;
-	Integer x;
-	Integer y;
-	Integer targetX;
-	Integer targetY;
-	List<Long> friends;
-	List<Long> enemies;
-	String love;
-	String like;
-	String dislike;
-	String hate;
-	Long targetId;
+	public Long id;
+	public String name;
+	public String trait;
+	public Integer radius;
+	public String color;
+	public String outline;
+	public String mood;
+	public String status;
+	public Integer x;
+	public Integer y;
+	public Integer targetX;
+	public Integer targetY;
+	public List<Long> friends;
+	public List<Long> enemies;
+	public String love;
+	public String like;
+	public String dislike;
+	public String hate;
+	public Long targetId;
 	
 	public Divvy(Div div){
 		this.id = div.getId();
@@ -38,7 +38,6 @@ public class Divvy {
 		this.y = div.getY();
 		this.targetX = div.getTargetX();
 		this.targetY = div.getTargetY();
-		this.friends = div.getFriends();
 		this.love = div.getLove();
 		this.like = div.getEnjoy();
 		this.dislike = div.getDislike();

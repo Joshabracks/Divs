@@ -1,132 +1,128 @@
 package com.josh.divs.routines;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
-
-import com.josh.divs.models.Div;
-import com.josh.divs.repositories.DivRepository;
 import com.josh.divs.tools.ActionTools;
+import com.josh.divs.tools.Divvy;
 
 @Service
 public class FriendlyPredicate{
-	
-	DivRepository divs;
 	Random rando;
 	ActionTools tools;
 	
-	public FriendlyPredicate(DivRepository divs) {
-		this.divs = divs;
+	public FriendlyPredicate() {
 		Random ran = new Random();
 		this.rando = ran;
 		ActionTools too = new ActionTools();
 		this.tools = too;
 	}
 	
-	public void call(Div self) {
-		if (self.getStatus().equals("idle")) {
-			List<Div> allDivs = (List<Div>) divs.findAll();
-			Div target = allDivs.get(rando.nextInt(allDivs.size()));
-			if (target.getStatus().equals("idle")) {
-				self.setStatus("friendlyApproach");
-				self.setTargetY(target.getY());
-				self.setTargetX(target.getX());
-				self.setTargetId(target.getId());
-				self.setMood(tools.friendlyMood());
-				divs.save(self);
-				divs.save(target);
+	public List<Divvy> call(Divvy self, List<Divvy> allDivvy) {
+		if (self.status.equals("idle")) {
+			Divvy target = allDivvy.get(rando.nextInt(allDivvy.size()));
+			if (target.status.equals("idle")) {
+				self.status = "friendlyApproach";
+				self.targetY = target.y;
+				self.targetX = target.x;
+				self.targetId = target.id;
+				self.mood = tools.friendlyMood();
 			}
 		}
-		else if (self.getStatus().equals("friendlyApproach")) {
-			self.setMood(tools.friendlyMood());
-			Optional<Div> option = divs.findById(self.getTargetId());
-			if (option.isPresent()) {
-				Div target = option.get();
-				if ((tools.xProx(self, target) < 75) && (tools.yProx(self, target) < 75)) {
-					self.setStatus("chatting");
-					target.setStatus("chatting");
-					target.setTargetId(self.getId());
-					self.setTargetX(self.getX());
-					self.setTargetY(self.getY());
-					target.setTargetX(target.getX());
-					target.setTargetY(target.getY());
-					divs.save(self);
-					divs.save(target);
+		else if (self.status.equals("friendlyApproach")) {
+			self.mood = tools.friendlyMood();
+			Divvy target = allDivvy.get(0);
+			int check = 0;
+			while ((target.id != self.targetId) && (check < allDivvy.size())) {
+				target = allDivvy.get(check);
+				check ++;
+			}
+			
+			if ((tools.xProx(self, target) < 75) && (tools.yProx(self, target) < 75)) {
+				self.status = "chatting";
+				target.status = "chatting";
+				target.targetId = self.id;
+				self.targetX = self.x;
+				self.targetY = self.y;
+				target.targetX = target.x;
+				target.targetY = target.y;
 				}
-			}
-			
-			
 		}
-		else if (self.getStatus().equals("chatting")) {
-			Optional<Div> option = divs.findById(self.getTargetId());
-			if (option.isPresent()) {
-				Div target = option.get();
+			
+			
+		
+		else if (self.status.equals("chatting")) {
+			Divvy target = allDivvy.get(0);
+			int check = 0;
+			while ((target.id != self.targetId) && (check < allDivvy.size())) {
+				target = allDivvy.get(check);
+				check ++;
+			}
 				Integer chatScore = tools.compareInterests(self,  target);
-				if (target.getTrait().equals("friendly")){
+				if (target.trait.equals("friendly")){
 					chatScore++;
-				}
 				if (chatScore > 0) {
-					List<Long> friends = self.getFriends();
+					List<Long> friends = self.friends;
 					boolean isFriend = false;
 					for (int i = 0; i < friends.size(); i++) {
-						if (friends.get(i) == target.getId()) {
+						if (friends.get(i) == target.id) {
 							isFriend = true;
 						}
 					}
 					if (isFriend != true) {
-						List<Long> enemies = self.getEnemies();
+						List<Long> enemies = self.enemies;
 						for (int i = 0; i < enemies.size(); i++) {
-							if (enemies.get(i) == target.getId()) {
+							if (enemies.get(i) == target.id) {
 								enemies.remove(i);
-								self.setEnemies(enemies);
+								self.enemies = enemies;
 							}
 						}
-						friends.add(target.getId());
-						self.setFriends(friends);
-						divs.save(self);
+						friends.add(target.id);
+						self.friends = friends;
 					}
 				}
 				if (chatScore < 0) {
-					self.setMood("T_T");
-					List<Long> friends = self.getFriends();
+					self.mood = "T_T";
+					List<Long> friends = self.friends;
 					
 					for (int i = 0; i < friends.size(); i++) {
-						if (friends.get(i) == target.getId()) {
+						if (friends.get(i) == target.id) {
 							friends.remove(i);
-							self.setFriends(friends);
+							self.friends = friends;
 							
 						}
 					}
-					List<Long> enemies = self.getEnemies();
+					List<Long> enemies = self.enemies;
 					boolean isEnemy = false;
 					for (int i = 0; i < enemies.size(); i++) {
-						if (enemies.get(i) == target.getId()) {
+						if (enemies.get(i) == target.id) {
 							isEnemy = true;
 						}
 					}
 					if (isEnemy != true) {
-						enemies.add(target.getId());
-						self.setEnemies(enemies);
-						divs.save(self);
+						enemies.add(target.id);
+						self.enemies = enemies;
 					}
 				}
 				
 			}
-			self.setStatus("stillChatting");
-			divs.findById(self.getTargetId()).get().setStatus("stillChatting");
-			divs.save(self);
-			divs.save(divs.findById(self.getTargetId()).get());
+			self.status = "stillChatting";
+			target.status = "stillChatting";
 			
 		}
-		else if (self.getStatus().equals("stillChatting")) {
-			self.setStatus("idle");
-			divs.save(self);
-			Div target = divs.findById(self.getTargetId()).get();
-			target.setStatus("idle");
-			divs.save(target);
+		else if (self.status.equals("stillChatting")) {
+			self.status = "idle";
+			Divvy target = allDivvy.get(0);
+			int check = 0;
+			while ((target.id != self.targetId) && (check < allDivvy.size())) {
+				target = allDivvy.get(check);
+				check ++;
+			}
+			target.status = "idle";
+			
 		}
+		return allDivvy;
 	}
 
 	

@@ -1,7 +1,6 @@
 package com.josh.divs.models;
 
 import java.util.Date;
-import java.util.List;
 
 
 import javax.persistence.Column;
@@ -61,8 +60,6 @@ public class Div {
     private Integer y;
     private Integer targetX;
     private Integer targetY;
-    private List<Long> friends;
-    private List<Long> enemies;
 	@Column(updatable=false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createdAt;
@@ -296,27 +293,6 @@ public class Div {
     protected void onCreate(){
         this.createdAt = new Date();
     }
-    public List<Long> getFriends() {
-		return friends;
-	}
-
-
-
-	public void setFriends(List<Long> friends) {
-		this.friends = friends;
-	}
-
-
-
-	public List<Long> getEnemies() {
-		return enemies;
-	}
-
-
-
-	public void setEnemies(List<Long> enemies) {
-		this.enemies = enemies;
-	}
 
 
 

@@ -2,8 +2,9 @@ package com.josh.divs.routines;
 
 import java.util.List;
 
-import com.josh.divs.models.Div;
+
+import com.josh.divs.tools.Divvy;
 
 public interface Predicate {
-	public void call(Div self, List<Div> ctx);
+	public Divvy call(Divvy self, List<Divvy> ctx);
 }
