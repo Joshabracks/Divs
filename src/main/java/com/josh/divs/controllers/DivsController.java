@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.josh.divs.models.Div;
 import com.josh.divs.repositories.DivRepository;
+import com.josh.divs.routines.AntiSocialPredicate;
 import com.josh.divs.routines.FriendlyPredicate;
 import com.josh.divs.routines.Predicate;
 import com.josh.divs.routines.WigglingPredicate;
@@ -20,7 +21,6 @@ import com.josh.divs.services.DivService;
 import com.josh.divs.services.ThingService;
 import com.josh.divs.tools.ActionTools;
 import com.josh.divs.tools.Divvy;
-import com.josh.divs.tools.FirstTrait;
 import com.josh.divs.tools.JsUpdateString;
 import com.josh.divs.tools.NameGenerator;
 
@@ -69,7 +69,6 @@ public class DivsController {
 	public ResponseEntity<?> updateAjax(){
 		JsUpdateString update = new JsUpdateString();
 		String result = update.getData(this.allDivvy);
-		System.out.println(result);
 		return ResponseEntity.ok(result);
 	}
 	
@@ -157,31 +156,25 @@ public class DivsController {
     	
     	for (int i = 0; i < this.allDivvy.size(); i++) {
     		Divvy current = this.allDivvy.get(i);
-    		if (current.status == null) {
-    			current.status = "idle";
-    		}
-    		if (current.status.equals("idle")) {
     			
 	    		if (current.trait.equals("friendly")) {
 	    			FriendlyPredicate friendly = (FriendlyPredicate) new FriendlyPredicate();
-	    			this.allDivvy = friendly.call(current, this.allDivvy);
+	    			current = friendly.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
 	    		}
 	    		else if (current.trait.equals("antisocial")) {
-	    			//MAKE SPACE
+	    			AntiSocialPredicate antiSocial = new AntiSocialPredicate();
+	    			current = antiSocial.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
 	    		}
 	    		else if (current.trait.equals("fighter")) {
 	    			//FIND ENEMY or SOCIALIZE 
+	    			Predicate wiggle = new WigglingPredicate();
+	    			current = wiggle.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
 	    		}
-	    		else {
-	    			FirstTrait firstTrait = new FirstTrait();
-	    			String trait = firstTrait.get();
-	    			current.trait = trait;
+	    		
 	    			
-	    		}
-    		}
-    		Predicate wiggle = new WigglingPredicate();
-    		current = wiggle.call(current, this.allDivvy);
-    		this.allDivvy.set(i, current);
     		
     	}
     }

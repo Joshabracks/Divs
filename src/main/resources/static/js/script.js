@@ -48,19 +48,19 @@ function makeSpace(div){
 			var xprox = xProx(div.x, allDivs[i].x);
 			if (div.x < 0) {
 				div.xtarget = 10;
-				div.status = "Out of bounds. Returning";
+				div.action = "Out of bounds. Returning";
 			}
 			else if (div.y < 0){
 				div.ytarget = 10;
-				div.status = "Out of bounds. Returning";
+				div.action = "Out of bounds. Returning";
 			}
 			else if ((xprox == 0) && (yprox == 0)){
 				div.xtarget = (div.x + Math.floor(Math.random() * 100) - 50);
 				div.ytarget = (div.y + Math.floor(Math.random() * 100) - 50);
-				div.status = "Giving " + other + " some space."
+				div.action = "Giving " + other + " some space."
 			}
 			else if ((xprox < 50) && (yprox < 50)) {
-				div.status = "Giving " + other + " some space."
+				div.action = "Giving " + other + " some space."
 				if (xprox >= yprox) {
 					if (div.x == allDivs[i].x) {
 						div.xtarget = (div.x + Math.floor(Math.random() * 100) - 50);
@@ -90,7 +90,7 @@ function makeSpace(div){
 
 
  
-function div(id, name, color, outline, mood, radius, x, y) {
+function div(id, name, color, outline, mood, radius, x, y, love, like, dislike, hate, action) {
 	this.id = id;
 	this.name = name;
 	this.color = color;
@@ -101,6 +101,11 @@ function div(id, name, color, outline, mood, radius, x, y) {
 	this.ytarget = 0;
 	this.x = x;
 	this.y = y;
+	this.hate = hate;
+	this.love = love;
+	this.like = like;
+	this.dislike = dislike;
+	this.action = action;
 }
 
 //PARSES THROUGH DATA ON UPDATE FUNCTION
@@ -118,6 +123,11 @@ function updateData(data){
 	var radius = 0;
 	var x = 0;
 	var y = 0;
+	var hate = "";
+	var love = "";
+	var like = "";
+	var dislike = "";
+	var action = "";
 	
 	var htmGo = "";
 	for (var i = 0; i < data.length; i++){
@@ -147,6 +157,11 @@ function updateData(data){
 				y = 0;
 				command = "";
 				setting = "";
+				var hate = "";
+				var love = "";
+				var like = "";
+				var dislike = "";
+				var action = "";
 			}
 			else {
 				command = "";
@@ -182,6 +197,21 @@ function updateData(data){
 					if (command =="y"){
 						y = y + data.charAt(i);
 					}
+					if (command =="hate"){
+						hate = hate + data.charAt(i);
+					}
+					if (command =="love"){
+						love = love + data.charAt(i);
+					}
+					if (command =="like"){
+						like = like + data.charAt(i);
+					}
+					if (command =="dislike"){
+						dislike = dislike + data.charAt(i);
+					}
+					if (command =="action"){
+						action = action + data.charAt(i);
+					}
 					
 			}
 		}
@@ -201,8 +231,13 @@ function spawnData(data){
 	var outline = "";
 	var mood = "";
 	var radius = "";
-	var x = 0;
-	var y = 0;
+	var x = "";
+	var y = "";
+	var hate = "";
+	var love = "";
+	var like = "";
+	var dislike = "";
+	var action = "";
 	
 //	var htmGo = "";
 	for (var i = 0; i < data.length; i++){
@@ -218,7 +253,7 @@ function spawnData(data){
 		else if (data.charAt(i) == "#"){
 			//compile current set of variables and add them to htmGo variable
 			if (command == "end") {
-				var newDiv = new div(id, name, color, outline, mood, radius, x, y);
+				var newDiv = new div(id, name, color, outline, mood, radius, x, y, love, like, dislike, hate, action);
 				allDivs.push(newDiv);
 //				var htmGo = '<div id="' + id + '" class="divvy" style="background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px;">' + mood + '</div>';
 //				document.getElementById("gamer").appendChild(htmGo);
@@ -233,8 +268,13 @@ function spawnData(data){
 				var outline = "";
 				var mood = "";
 				var radius = "";
-				var x = 0;
-				var y = 0;
+				var x = "";
+				var y = "";
+				var hate = "";
+				var love = "";
+				var like = "";
+				var dislike = "";
+				var action = "";
 			}
 			else {
 				command = "";
@@ -270,6 +310,21 @@ function spawnData(data){
 					if (command == "y"){
 						y = y + data.charAt(i);
 					}
+					if (command =="hate"){
+						hate = hate + data.charAt(i);
+					}
+					if (command =="love"){
+						love = love + data.charAt(i);
+					}
+					if (command =="like"){
+						like = like + data.charAt(i);
+					}
+					if (command =="dislike"){
+						dislike = dislike + data.charAt(i);
+					}
+					if (command =="action"){
+						action = action + data.charAt(i);
+					}
 			}
 		}
 	}
@@ -288,6 +343,11 @@ function spawnDivData(data){
 	var radius = "";
 	var x = "";
 	var y = "";
+	var hate = "";
+	var love = "";
+	var like = "";
+	var dislike = "";
+	var action ="";
 	for (var i = 0; i < data.length; i++){
 		//settings
 		if (data.charAt(i) == "!"){
@@ -310,6 +370,13 @@ function spawnDivData(data){
 				var outline = "";
 				var mood = "";
 				var radius = "";
+				var x = "";
+				var y = "";
+				var hate = "";
+				var love = "";
+				var like = "";
+				var dislike = "";
+				var action = "";
 			}
 			else {
 				command = "";
@@ -345,6 +412,21 @@ function spawnDivData(data){
 					if (command == "y"){
 						y = y + data.charAt(i);
 					}
+					if (command =="hate"){
+						hate = hate + data.charAt(i);
+					}
+					if (command =="love"){
+						love = love + data.charAt(i);
+					}
+					if (command =="like"){
+						like = like + data.charAt(i);
+					}
+					if (command =="dislike"){
+						dislike = dislike + data.charAt(i);
+					}
+					if (command =="action"){
+						action = action + data.charAt(i);
+					}
 					
 			}
 		}
@@ -365,6 +447,11 @@ function updateBehaviors(data){
 	var radius = "";
 	var x = "";
 	var y = "";
+	var hate = "";
+	var love = "";
+	var like = "";
+	var dislike = "";
+	var action = "";
 	for (var i = 0; i < data.length; i++){
 		//settings
 		if (data.charAt(i) == "!"){
@@ -387,9 +474,15 @@ function updateBehaviors(data){
 						allDivs[j].color = color;
 						allDivs[j].outline = outline;
 						allDivs[j].mood = mood;
+						document.getElementById(id).innerHTML = mood;
 						allDivs[j].radius = radius;
 						allDivs[j].xtarget = x;
 						allDivs[j].ytarget = y;
+						allDivs[j].like = like;
+						allDivs[j].dislike = dislike;
+						allDivs[j].love = love;
+						allDivs[j].hate = hate;
+						allDivs[j].action = action;
 					}
 				}
 
@@ -401,6 +494,11 @@ function updateBehaviors(data){
 				radius = "";
 				x = "";
 				y = "";
+				like = "";
+				dislike = "";
+				love = "";
+				hate = "";
+				action = "";
 				
 			}
 			else {
@@ -436,6 +534,21 @@ function updateBehaviors(data){
 					}
 					if (command =="y"){
 						y = y + data.charAt(i);
+					}
+					if (command =="hate"){
+						hate = hate + data.charAt(i);
+					}
+					if (command =="love"){
+						love = love + data.charAt(i);
+					}
+					if (command =="like"){
+						like = like + data.charAt(i);
+					}
+					if (command =="dislike"){
+						dislike = dislike + data.charAt(i);
+					}
+					if (command =="action"){
+						action = action + data.charAt(i);
 					}
 					
 			}
@@ -571,7 +684,7 @@ window.setInterval(function(){
 		spotlight = allDivs[0];
 		updateSpotlight(spotlight.id);
 	}
-	document.getElementById("spotlight").innerHTML = "<h3>" + spotlight.status + "</h3>";
+	document.getElementById("spotlight").innerHTML = "<h3>" + spotlight.action + "</h3>" + "<h3>Loves: " + spotlight.love + "</h3>" + "<h3>Likes: " + spotlight.like + "</h3>" + "<h3>Dislikes: " + spotlight.dislike + "</h3>" + "<h3>Hates: " + spotlight.hate + "</h3>";
 	document.getElementById("spawner").innerHTML = "<h2>" + spotlight.id + "</h2>";
 }, 1000)
 
@@ -598,6 +711,8 @@ function updateSpotlight(id){
 	target = document.getElementById("infobox");
 	
 	target.innerHTML = '<br><h2>' + thisDiv.name + '</h2>';
+	document.getElementById("spotlight").innerHTML = "<h3>" + spotlight.action + "</h3>" + "<h3>Loves: " + spotlight.love + "</h3>" + "<h3>Likes: " + spotlight.like + "</h3>" + "<h3>Dislikes: " + spotlight.dislike + "</h3>" + "<h3>Hates: " + spotlight.hate + "</h3>";
+	document.getElementById("spawner").innerHTML = "<h2>" + spotlight.id + "</h2>";
 }
 
 $('#gamer').click(function(event){

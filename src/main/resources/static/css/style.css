@@ -93,9 +93,9 @@
     border-bottom: 10px solid #C1272D;
 }
 
-.infobox{
+#infobox{
 	padding: 5px;
-	
+	color: black;	
 }
 
 .bottom{

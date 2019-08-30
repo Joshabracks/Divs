@@ -1,5 +1,6 @@
 package com.josh.divs.tools;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.josh.divs.models.Div;
@@ -24,6 +25,8 @@ public class Divvy {
 	public String dislike;
 	public String hate;
 	public Long targetId;
+	public String action;
+	public String lastAction;
 	
 	public Divvy(Div div){
 		this.id = div.getId();
@@ -33,7 +36,7 @@ public class Divvy {
 		this.color = div.getColor();
 		this.outline = div.getOutline();
 		this.mood = div.getMood();
-		this.status = div.getStatus();
+		this.status = "idle";
 		this.x = div.getX();
 		this.y = div.getY();
 		this.targetX = div.getTargetX();
@@ -43,5 +46,9 @@ public class Divvy {
 		this.dislike = div.getDislike();
 		this.hate = div.getHate();
 		this.targetId = div.getTargetId();
+		this.action = "Is chillin'";
+		this.lastAction = "idle";
+		this.friends = new ArrayList<>();
+		this.enemies = new ArrayList<>();
 	}
 }

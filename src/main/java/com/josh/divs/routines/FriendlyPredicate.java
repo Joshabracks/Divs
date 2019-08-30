@@ -1,5 +1,6 @@
 package com.josh.divs.routines;
 
+
 import java.util.List;
 import java.util.Random;
 
@@ -19,41 +20,50 @@ public class FriendlyPredicate{
 		this.tools = too;
 	}
 	
-	public List<Divvy> call(Divvy self, List<Divvy> allDivvy) {
+	public Divvy call(Divvy self, List<Divvy> allDivvy) {
 		if (self.status == null) {
 			self.status = "idle";
 		}
 		if (self.status.equals("idle")) {
+			
 			Divvy target = allDivvy.get(rando.nextInt(allDivvy.size()));
 			if (target.status == null) {
 				target.status = "idle";
 			}
+			
 			if (target.status.equals("idle")) {
 				self.status = "friendlyApproach";
 				self.targetY = target.y;
 				self.targetX = target.x;
 				self.targetId = target.id;
 				self.mood = tools.friendlyMood();
+				self.action = self.name + " wants to talk to " + target.name;
+				return self;
 			}
 		}
 		else if (self.status.equals("friendlyApproach")) {
+			
 			self.mood = tools.friendlyMood();
 			Divvy target = allDivvy.get(0);
 			int check = 0;
 			while ((target.id != self.targetId) && (check < allDivvy.size())) {
-				target = allDivvy.get(check);
+				
 				check ++;
+				target = allDivvy.get(check);
+				
+				
 			}
 			
 			if ((tools.xProx(self, target) < 75) && (tools.yProx(self, target) < 75)) {
 				self.status = "chatting";
-				target.status = "chatting";
+				self.action = "Chatting with " + target.name;
 				target.targetId = self.id;
 				self.targetX = self.x;
 				self.targetY = self.y;
 				target.targetX = target.x;
 				target.targetY = target.y;
 				}
+			return self;
 		}
 			
 			
@@ -66,14 +76,18 @@ public class FriendlyPredicate{
 				check ++;
 			}
 				Integer chatScore = tools.compareInterests(self,  target);
+				
 				if (target.trait.equals("friendly")){
 					chatScore++;
+					System.out.println(chatScore);
+					
 				if (chatScore > 0) {
 					List<Long> friends = self.friends;
 					boolean isFriend = false;
 					for (int i = 0; i < friends.size(); i++) {
 						if (friends.get(i) == target.id) {
 							isFriend = true;
+							
 						}
 					}
 					if (isFriend != true) {
@@ -86,6 +100,8 @@ public class FriendlyPredicate{
 						}
 						friends.add(target.id);
 						self.friends = friends;
+						self.action = "and " +  target.name +  " are friends!";
+						self.mood = "<p style='color: pink;'>^_^</p>";
 					}
 				}
 				if (chatScore < 0) {
@@ -114,7 +130,6 @@ public class FriendlyPredicate{
 				
 			}
 			self.status = "stillChatting";
-			target.status = "stillChatting";
 			
 		}
 		else if (self.status.equals("stillChatting")) {
@@ -128,7 +143,7 @@ public class FriendlyPredicate{
 			target.status = "idle";
 			
 		}
-		return allDivvy;
+		return self;
 	}
 
 	
