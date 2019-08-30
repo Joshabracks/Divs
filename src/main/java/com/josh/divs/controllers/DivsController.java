@@ -77,10 +77,12 @@ public class DivsController {
 	
 	private void load() {
 		List<Div> allDivs = divs.allDivs();
+		List<Divvy> divList = new ArrayList<>();
 		for (int i = 0; i < allDivs.size(); i++) {
 			Divvy newDivvy = new Divvy(allDivs.get(i));
-			this.allDivvy.add(newDivvy);
+			divList.add(newDivvy);
 		}
+		this.allDivvy = divList;
 	}
 	
 
@@ -95,14 +97,10 @@ public class DivsController {
 	
 	@Scheduled(fixedRate = 6000)
 	public void save() {
-		if (this.allDivvy.isEmpty()) {
-			load();
-		}
-		else {
 			for (int i = 0; i < this.allDivvy.size(); i++) {
 				tools.saveDiv(this.allDivvy.get(i), repo); 
-			} 
 		}
+			load();
 	}
 	
 	
@@ -110,6 +108,12 @@ public class DivsController {
     public void move() {
 		for (int i = 0; i < this.allDivvy.size(); i++) {
 		Divvy current = allDivvy.get(i);
+		if (current.targetY == null) {
+			current.targetY = current.y;
+		}
+		if (current.targetX == null) {
+			current.targetX = current.x;
+		}
 		if (current.x < current.targetX) {
 			int x = current.x + 1;
 			current.x = x;
@@ -153,7 +157,10 @@ public class DivsController {
     	
     	for (int i = 0; i < this.allDivvy.size(); i++) {
     		Divvy current = this.allDivvy.get(i);
-    		if (current.status.equals("idle") || current.status.equals(null)) {
+    		if (current.status == null) {
+    			current.status = "idle";
+    		}
+    		if (current.status.equals("idle")) {
     			
 	    		if (current.trait.equals("friendly")) {
 	    			FriendlyPredicate friendly = (FriendlyPredicate) new FriendlyPredicate();
@@ -174,7 +181,6 @@ public class DivsController {
     		}
     		Predicate wiggle = new WigglingPredicate();
     		current = wiggle.call(current, this.allDivvy);
-    		current.targetY = current.targetY + 5;
     		this.allDivvy.set(i, current);
     		
     	}

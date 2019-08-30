@@ -20,8 +20,14 @@ public class FriendlyPredicate{
 	}
 	
 	public List<Divvy> call(Divvy self, List<Divvy> allDivvy) {
+		if (self.status == null) {
+			self.status = "idle";
+		}
 		if (self.status.equals("idle")) {
 			Divvy target = allDivvy.get(rando.nextInt(allDivvy.size()));
+			if (target.status == null) {
+				target.status = "idle";
+			}
 			if (target.status.equals("idle")) {
 				self.status = "friendlyApproach";
 				self.targetY = target.y;
