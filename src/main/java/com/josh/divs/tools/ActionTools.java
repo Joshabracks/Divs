@@ -99,6 +99,7 @@ public class ActionTools {
 		div.setDislike(divvy.dislike);
 		div.setHate(divvy.hate);
 		div.setTargetId(divvy.targetId);
+		div.setAge(divvy.age);
 		repo.save(div);
 	}
 	

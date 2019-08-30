@@ -2,11 +2,13 @@ package com.josh.divs.tools;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.josh.divs.models.Div;
 
 public class Divvy {
 	public Long id;
+	public Long age;
 	public String name;
 	public String trait;
 	public Integer radius;
@@ -27,6 +29,7 @@ public class Divvy {
 	public Long targetId;
 	public String action;
 	public String lastAction;
+	public Integer size;
 	
 	public Divvy(Div div){
 		this.id = div.getId();
@@ -50,5 +53,8 @@ public class Divvy {
 		this.lastAction = "idle";
 		this.friends = new ArrayList<>();
 		this.enemies = new ArrayList<>();
+		Random r = new Random();
+		this.age = (long) r.nextInt(2000);
+		this.size = 50;
 	}
 }

@@ -1,7 +1,7 @@
 package com.josh.divs.routines;
 
 import java.util.List;
-import java.util.Random;
+import java.util.Random; 
 
 import org.springframework.stereotype.Service;
 
@@ -37,7 +37,7 @@ public class FighterPredicate {
 						self.targetY = target.y;
 						self.status = "chasing";
 						self.action = "is chasing " + target.name;
-						self.mood = "<p style=' color: red;'>+_+</p>";
+						self.mood = "<p style=' color: red;'>+_+</p>"; 
 					}
 					else {
 					

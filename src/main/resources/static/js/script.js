@@ -13,25 +13,29 @@ var tempMar = "";
 
 function move(div){
     var dot = document.getElementById(div.id);
-    
-    if (div.x != div.xtarget){
-	    if (div.x < div.xtarget) {
-	    	div.x++;
+	if (div.like == "trees"){
+	    	
 	    }
-	    if (div.x > div.xtarget) {
-	    	div.x--;
+	else {
+	    if (div.x != div.xtarget){
+		    if (div.x < div.xtarget) {
+		    	div.x++;
+		    }
+		    if (div.x > div.xtarget) {
+		    	div.x--;
+		    }
+		    dot.style.left = (div.x) + "px";
 	    }
-	    dot.style.left = (div.x) + "px";
-    }
-    if (div.y != div.ytarget){
-	    if (div.y < div.ytarget) {
-	    	div.y++;
+	    if (div.y != div.ytarget){
+		    if (div.y < div.ytarget) {
+		    	div.y++;
+		    }
+		    if (div.y > div.ytarget) {
+		    	div.y--;
+		    }
+		    dot.style.top = (div.y) + "px";
 	    }
-	    if (div.y > div.ytarget) {
-	    	div.y--;
-	    }
-	    dot.style.top = (div.y) + "px";
-    }
+	}
 }
 //PROXIMITY AND SPACE MAKING BEHAVIOUR
 function xProx(x1, x2){
@@ -46,6 +50,7 @@ function makeSpace(div){
 			var other = allDivs[i].name;
 			var yprox = yProx(div.y, allDivs[i].y);
 			var xprox = xProx(div.x, allDivs[i].x);
+			var distance = ((div.x.size + allDivs[i].size)/2);
 //			if (div.x < 0) {
 //				div.xtarget = 10;
 //				div.action = "Out of bounds. Returning";
@@ -90,7 +95,7 @@ function makeSpace(div){
 
 
  
-function div(id, name, color, outline, mood, radius, x, y, love, like, dislike, hate, action) {
+function div(id, name, color, outline, mood, radius, x, y, love, like, dislike, hate, action, size) {
 	this.id = id;
 	this.name = name;
 	this.color = color;
@@ -106,6 +111,7 @@ function div(id, name, color, outline, mood, radius, x, y, love, like, dislike, 
 	this.like = like;
 	this.dislike = dislike;
 	this.action = action;
+	this.size = size;
 }
 
 //PARSES THROUGH DATA ON UPDATE FUNCTION
@@ -128,6 +134,7 @@ function updateData(data){
 	var like = "";
 	var dislike = "";
 	var action = "";
+	var size = "";
 	
 	var htmGo = "";
 	for (var i = 0; i < data.length; i++){
@@ -143,7 +150,7 @@ function updateData(data){
 		else if (data.charAt(i) == "#"){
 			//compile current set of variables and add them to htmGo variable
 			if (command == "end") {
-				htmGo = htmGo + '<button id="' + id + '" class="divvy" style=" top: ' + y + '; left: ' + x +';background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px;">' + mood + '</button>';
+				htmGo = htmGo + '<button id="' + id + '" class="divvy" style=" top: ' + y + '; left: ' + x +';background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px; height: ' + size + 'px; width: ' + size + 'px;">' + mood + '</button>';
 				
 				tempMar = tempMar + name + ", ";
 				
@@ -162,6 +169,7 @@ function updateData(data){
 				var like = "";
 				var dislike = "";
 				var action = "";
+				var size = "";
 			}
 			else {
 				command = "";
@@ -212,6 +220,9 @@ function updateData(data){
 					if (command =="action"){
 						action = action + data.charAt(i);
 					}
+					if (command =="size"){
+						size = size + data.charAt(i);
+					}
 					
 			}
 		}
@@ -238,6 +249,7 @@ function spawnData(data){
 	var like = "";
 	var dislike = "";
 	var action = "";
+	var size = "";
 	
 //	var htmGo = "";
 	for (var i = 0; i < data.length; i++){
@@ -253,7 +265,7 @@ function spawnData(data){
 		else if (data.charAt(i) == "#"){
 			//compile current set of variables and add them to htmGo variable
 			if (command == "end") {
-				var newDiv = new div(id, name, color, outline, mood, radius, x, y, love, like, dislike, hate, action);
+				var newDiv = new div(id, name, color, outline, mood, radius, x, y, love, like, dislike, hate, action, size);
 				allDivs.push(newDiv);
 //				var htmGo = '<div id="' + id + '" class="divvy" style="background-color: ' + color + '; border: 5px solid ' + outline + '; border-radius: ' + radius + 'px;">' + mood + '</div>';
 //				document.getElementById("gamer").appendChild(htmGo);
@@ -275,6 +287,7 @@ function spawnData(data){
 				var like = "";
 				var dislike = "";
 				var action = "";
+				var size = "";
 			}
 			else {
 				command = "";
@@ -325,6 +338,9 @@ function spawnData(data){
 					if (command =="action"){
 						action = action + data.charAt(i);
 					}
+					if (command =="size"){
+						size = size + data.charAt(i);
+					}
 			}
 		}
 	}
@@ -348,6 +364,7 @@ function spawnDivData(data){
 	var like = "";
 	var dislike = "";
 	var action ="";
+	var size = "";
 	for (var i = 0; i < data.length; i++){
 		//settings
 		if (data.charAt(i) == "!"){
@@ -377,6 +394,7 @@ function spawnDivData(data){
 				var like = "";
 				var dislike = "";
 				var action = "";
+				var size = "";
 			}
 			else {
 				command = "";
@@ -427,6 +445,9 @@ function spawnDivData(data){
 					if (command =="action"){
 						action = action + data.charAt(i);
 					}
+					if (command =="size"){
+						size = size + data.charAt(i);
+					}
 					
 			}
 		}
@@ -452,6 +473,7 @@ function updateBehaviors(data){
 	var like = "";
 	var dislike = "";
 	var action = "";
+	var size = "";
 	for (var i = 0; i < data.length; i++){
 		//settings
 		if (data.charAt(i) == "!"){
@@ -467,9 +489,11 @@ function updateBehaviors(data){
 			if (command == "end") {
 				length = allDivs.length;
 				
-				
+				var checker = false;
 				for (var j = 0; j < allDivs.length; j++){
+					
 					if (allDivs[j].id == id) {
+						checker = true;
 						allDivs[j].name = name;
 						allDivs[j].color = color;
 						allDivs[j].outline = outline;
@@ -483,7 +507,15 @@ function updateBehaviors(data){
 						allDivs[j].love = love;
 						allDivs[j].hate = hate;
 						allDivs[j].action = action;
+						allDivs[j].size = size;
 					}
+					
+				}
+				if (checker == false){
+					var newDiv = new div(id, name, color, outline, mood, radius, x, y, love, like, dislike, hate, action, size);
+					allDivs.push(newDiv);
+					setDiv(newDiv);
+					
 				}
 
 				id = "";
@@ -499,6 +531,7 @@ function updateBehaviors(data){
 				love = "";
 				hate = "";
 				action = "";
+				size = "";
 				
 			}
 			else {
@@ -550,6 +583,9 @@ function updateBehaviors(data){
 					if (command =="action"){
 						action = action + data.charAt(i);
 					}
+					if (command =="size"){
+						size = size + data.charAt(i);
+					}
 					
 			}
 		}
@@ -581,14 +617,22 @@ function setDivs() {
 }
 function updateDivs() {
 	for (var i = 0; i < allDivs.length; i++){
-		current = allDivs[i];
-		target = document.getElementById(allDivs[i].id);
-		target.style.backgroundColor = current.color;
-		target.style.border = '5px solid ' + current.outline;
-		target.style.borderRadius = current.radius + "px";
-		target.innerHTML = current.mood;
-		target.style.top = current.y;
-		target.style.left = current.x;
+//		if (allDivs[i].size > 100){
+//			document.getElementById(allDivs[i].id).className = "tree";
+//		}
+//		else {
+			current = allDivs[i];
+			target = document.getElementById(allDivs[i].id);
+			target.style.backgroundColor = current.color;
+			target.style.border = '5px solid ' + current.outline;
+			target.style.borderRadius = current.radius + "px";
+			target.innerHTML = current.mood;
+			target.style.top = current.y;
+			target.style.left = current.x;
+			target.style.height = current.size + "px";
+			target.style.width = current.size + "px";
+//		}
+		
 	}
 }
 
@@ -657,6 +701,7 @@ window.setInterval(function(){
 				
 				updateBehaviors(data);
 				updateMarquis();
+				updateDivs();
 				
 				
 			}
@@ -690,7 +735,7 @@ window.setInterval(function(){
 		updateSpotlight(spotlight.id);
 	}
 	document.getElementById("spotlight").innerHTML = "<h3>" + spotlight.action + "</h3>" + "<h3>Loves: " + spotlight.love + "</h3>" + "<h3>Likes: " + spotlight.like + "</h3>" + "<h3>Dislikes: " + spotlight.dislike + "</h3>" + "<h3>Hates: " + spotlight.hate + "</h3>";
-	document.getElementById("spawner").innerHTML = "<h2>" + spotlight.id + "</h2>";
+	document.getElementById("spawner").innerHTML = "<h2>" + spotlight.size + "</h2>";
 }, 1000)
 
 $('#spawner').click(function(event) {

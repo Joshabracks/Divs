@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -53,8 +52,8 @@ public class Div {
 //    )
 //    private List<Thing> likes;
 
-	private Integer age;
-	@Max(25)
+	private Long age;
+	
 	private Integer radius;
 	private Integer damage;
 	private Integer health;
@@ -219,7 +218,7 @@ public class Div {
 
 	
 	
-	public Integer getAge() {
+	public Long getAge() {
 		return age;
 	}
 
@@ -271,7 +270,7 @@ public class Div {
 
 
 
-	public void setAge(Integer age) {
+	public void setAge(Long age) {
 		this.age = age;
 	}
 

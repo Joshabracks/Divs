@@ -30,11 +30,11 @@ public class WigglingPredicate implements Predicate {
 		if (y < 0) {
 			y = 20;
 		}
-		if (x > 3000) {
-			x = 2990;
+		if (x > 1080) {
+			x = 1060;
 		}
-		if (y > 3000) {
-			y = 2990;
+		if (y > 1000) {
+			y = 980;
 		}
 		
 		self.status = "idle";

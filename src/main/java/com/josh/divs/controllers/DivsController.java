@@ -17,6 +17,7 @@ import com.josh.divs.routines.AntiSocialPredicate;
 import com.josh.divs.routines.FighterPredicate;
 import com.josh.divs.routines.FriendlyPredicate;
 import com.josh.divs.routines.Predicate;
+import com.josh.divs.routines.TreePredicate;
 import com.josh.divs.routines.WigglingPredicate;
 import com.josh.divs.services.DivService;
 import com.josh.divs.services.ThingService;
@@ -60,10 +61,17 @@ public class DivsController {
 		save();
 		NameGenerator name = new NameGenerator();
 		Div newDiv = divs.createDiv(name.name());
-		load();
+		loadOne(newDiv);
 		JsUpdateString update = new JsUpdateString();
 		String result = update.getData(newDiv);
 		return ResponseEntity.ok(result);
+	}
+	
+	private void spawn(Divvy parent) {
+		save();
+		NameGenerator name = new NameGenerator();
+		Div newDiv = divs.createDiv(name.name(parent.name));
+		loadOne(newDiv, parent);
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST)
@@ -84,6 +92,20 @@ public class DivsController {
 		}
 		this.allDivvy = divList;
 	}
+	private void loadOne(Div div) {
+		
+			Divvy newDivvy = new Divvy(div);
+		
+		this.allDivvy.add(newDivvy);
+	}
+	
+	private void loadOne(Div div, Divvy parent) {
+		
+		Divvy newDivvy = new Divvy(div);
+		newDivvy.x = parent.x;
+		newDivvy.y = parent.y;
+	this.allDivvy.add(newDivvy);
+}
 	
 
 	private List<Divvy> initialLoad(List<Div> allDivs){
@@ -95,12 +117,12 @@ public class DivsController {
 		return divvies;
 	}
 	
-	@Scheduled(fixedRate = 6000)
+	@Scheduled(fixedRate = 60000)
 	public void save() {
 			for (int i = 0; i < this.allDivvy.size(); i++) {
 				tools.saveDiv(this.allDivvy.get(i), repo); 
 		}
-			load();
+			
 	}
 	
 	
@@ -135,7 +157,7 @@ public class DivsController {
 		
 		}
 	}
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 750)
     public void scheduleTaskWithFixedRate() {
     	
     	if (things.allThings().size() < 3) {
@@ -158,6 +180,40 @@ public class DivsController {
     	
     	for (int i = 0; i < this.allDivvy.size(); i++) {
     		Divvy current = this.allDivvy.get(i);
+    		current.age++;
+//    		if ((current.size > 100)) {
+//    			current.status = "tree";
+//    			current.action = "tree";
+//    			current.trait = "tree";
+//    		}
+    		if (current.age % 100 == 0) {
+    			
+    			current.size = 50 + Math.round(current.age/100);
+    		}
+    		if (current.size > 75) {
+    			save();
+    			spawn(current);
+    			current.age = (long) 0;
+    			current.size = 50;
+    			current.name = names.name(current.name);
+    			current.action = "is born!";
+    		}
+//    		if (current.trait.equals("tree")) {
+//    			TreePredicate tree = new TreePredicate();
+//    			current = tree.call(current, this.allDivvy);
+//    			this.allDivvy.set(i, current);
+//    			if (!current.trait.equals("tree")) {
+//    				NameGenerator name = new NameGenerator();
+//    				Div newDiv = divs.createDiv(name.name(current.name));
+//    				newDiv.setX(current.x);
+//    				newDiv.setY(current.y);
+//    				loadOne(newDiv);
+//    			}
+//    		}
+//    		else if (current.trait.equals("berry")) {
+//    			current.targetX = current.x;
+//    			current.targetY = current.y;
+//    		}
     			if (current.x < 0) {
     				Predicate wiggle = new WigglingPredicate();
 	    			current = wiggle.call(current, this.allDivvy);
