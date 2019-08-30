@@ -65,17 +65,18 @@ public class ActionTools {
 			score = score - 6;
 		}
 		if (divA.love == divB.dislike) {
-			score = score - 2;
+			score = score - 3;
 		}
 		if (divA.dislike == divB.love) {
-			score = score - 2;
+			score = score - 3;
 		}
 		if (divA.dislike == divB.like) {
-			score = score - 1;
+			score = score - 2;
 		}
 		if (divA.like == divB.dislike) {
-			score = score -1;
+			score = score - 2;
 		}
+		
 		return score;
 	}
 	
@@ -99,5 +100,30 @@ public class ActionTools {
 		div.setHate(divvy.hate);
 		div.setTargetId(divvy.targetId);
 		repo.save(div);
+	}
+	
+	public String idleAction() {
+		List<String> list = Arrays.asList(new String[]{"Is chillin'", "Is a div", "Knows what you did last week, Karen", "Doesn't like Eduardo", "is Deprecated", "Has no soul", "Wants you to stop looking at it", "Doesn't know where it is", "Is questioning the meaning of life", "Is counting all of the grains of sand on the beach"});
+		Random r = new Random();
+		String action = list.get(r.nextInt(list.size()));
+		return action;
+	}
+	public String idleFace() {
+		List<String> list = Arrays.asList(new String[]{"o_o", "-_-"});
+		Random r = new Random();
+		String action = list.get(r.nextInt(list.size()));
+		return action;
+	}
+	public String scaredFace() {
+		List<String> list = Arrays.asList(new String[]{"o_O", ">_<", "<p style= 'color: blue;'>T_T</p>"});
+		Random r = new Random();
+		String action = list.get(r.nextInt(list.size()));
+		return action;
+	}
+	public String meanFace() {
+		List<String> list = Arrays.asList(new String[]{"<p style= 'color: maroon;'>*_*</p>", "<p style= 'color: maroon;'>~_~</p>"});
+		Random r = new Random();
+		String action = list.get(r.nextInt(list.size()));
+		return action;
 	}
 }

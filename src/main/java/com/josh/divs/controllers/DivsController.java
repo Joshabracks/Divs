@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.josh.divs.models.Div;
 import com.josh.divs.repositories.DivRepository;
+import com.josh.divs.routines.AntiSocialPredicate;
+import com.josh.divs.routines.FighterPredicate;
 import com.josh.divs.routines.FriendlyPredicate;
 import com.josh.divs.routines.Predicate;
 import com.josh.divs.routines.WigglingPredicate;
@@ -20,7 +22,6 @@ import com.josh.divs.services.DivService;
 import com.josh.divs.services.ThingService;
 import com.josh.divs.tools.ActionTools;
 import com.josh.divs.tools.Divvy;
-import com.josh.divs.tools.FirstTrait;
 import com.josh.divs.tools.JsUpdateString;
 import com.josh.divs.tools.NameGenerator;
 
@@ -69,7 +70,6 @@ public class DivsController {
 	public ResponseEntity<?> updateAjax(){
 		JsUpdateString update = new JsUpdateString();
 		String result = update.getData(this.allDivvy);
-		System.out.println(result);
 		return ResponseEntity.ok(result);
 	}
 	
@@ -77,10 +77,12 @@ public class DivsController {
 	
 	private void load() {
 		List<Div> allDivs = divs.allDivs();
+		List<Divvy> divList = new ArrayList<>();
 		for (int i = 0; i < allDivs.size(); i++) {
 			Divvy newDivvy = new Divvy(allDivs.get(i));
-			this.allDivvy.add(newDivvy);
+			divList.add(newDivvy);
 		}
+		this.allDivvy = divList;
 	}
 	
 
@@ -95,14 +97,10 @@ public class DivsController {
 	
 	@Scheduled(fixedRate = 6000)
 	public void save() {
-		if (this.allDivvy.isEmpty()) {
-			load();
-		}
-		else {
 			for (int i = 0; i < this.allDivvy.size(); i++) {
 				tools.saveDiv(this.allDivvy.get(i), repo); 
-			} 
 		}
+			load();
 	}
 	
 	
@@ -110,6 +108,13 @@ public class DivsController {
     public void move() {
 		for (int i = 0; i < this.allDivvy.size(); i++) {
 		Divvy current = allDivvy.get(i);
+		
+		if (current.targetY == null) {
+			current.targetY = current.y;
+		}
+		if (current.targetX == null) {
+			current.targetX = current.x;
+		}
 		if (current.x < current.targetX) {
 			int x = current.x + 1;
 			current.x = x;
@@ -130,7 +135,7 @@ public class DivsController {
 		
 		}
 	}
-    @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 1000)
     public void scheduleTaskWithFixedRate() {
     	
     	if (things.allThings().size() < 3) {
@@ -153,29 +158,51 @@ public class DivsController {
     	
     	for (int i = 0; i < this.allDivvy.size(); i++) {
     		Divvy current = this.allDivvy.get(i);
-    		if (current.status.equals("idle") || current.status.equals(null)) {
+    			if (current.x < 0) {
+    				Predicate wiggle = new WigglingPredicate();
+	    			current = wiggle.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
+    			}
+    			else if (current.y < 0) {
+    				Predicate wiggle = new WigglingPredicate();
+	    			current = wiggle.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
+    			}
+    			else if (current.x > 3000) {
+    				Predicate wiggle = new WigglingPredicate();
+	    			current = wiggle.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
+    			}
+    			else if (current.y > 3000) {
+    				Predicate wiggle = new WigglingPredicate();
+	    			current = wiggle.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
+    			}
     			
-	    		if (current.trait.equals("friendly")) {
+    			else if (current.trait.equals("friendly")) {
 	    			FriendlyPredicate friendly = (FriendlyPredicate) new FriendlyPredicate();
-	    			this.allDivvy = friendly.call(current, this.allDivvy);
+	    			current = friendly.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
 	    		}
 	    		else if (current.trait.equals("antisocial")) {
-	    			//MAKE SPACE
+	    			AntiSocialPredicate antiSocial = new AntiSocialPredicate();
+	    			current = antiSocial.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
 	    		}
 	    		else if (current.trait.equals("fighter")) {
 	    			//FIND ENEMY or SOCIALIZE 
-	    		}
-	    		else {
-	    			FirstTrait firstTrait = new FirstTrait();
-	    			String trait = firstTrait.get();
-	    			current.trait = trait;
+	    			FighterPredicate mean = new FighterPredicate();
+	    			current = mean.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
 	    			
 	    		}
-    		}
-    		Predicate wiggle = new WigglingPredicate();
-    		current = wiggle.call(current, this.allDivvy);
-    		current.targetY = current.targetY + 5;
-    		this.allDivvy.set(i, current);
+	    		else {
+	    			Predicate wiggle = new WigglingPredicate();
+	    			current = wiggle.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
+	    		}
+	    		
+	    			
     		
     	}
     }

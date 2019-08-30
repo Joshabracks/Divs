@@ -5,8 +5,7 @@ import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
-
-
+import com.josh.divs.tools.ActionTools;
 import com.josh.divs.tools.Divvy;
 
 @Service
@@ -39,6 +38,14 @@ public class WigglingPredicate implements Predicate {
 		}
 		
 		self.status = "idle";
+		
+		if (!self.lastAction.equals("idle")) {
+			ActionTools tool = new ActionTools();
+			self.mood = tool.idleFace();
+			self.action = tool.idleAction();
+			self.lastAction = "idle";
+		}
+		
 		self.targetX = x;
 		self.targetY = y;
 		return self;

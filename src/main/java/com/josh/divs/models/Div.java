@@ -18,6 +18,8 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.josh.divs.tools.FirstTrait;
+
 @Entity
 @Table(name="divs")
 public class Div {
@@ -73,7 +75,10 @@ public class Div {
     private Long targetId;
 
     public Div() {
-    	
+    	FirstTrait firstTrait = new FirstTrait();
+		String trait = firstTrait.get();
+		this.trait = trait;
+			
     }
     
     

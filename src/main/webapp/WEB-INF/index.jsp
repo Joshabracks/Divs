@@ -17,10 +17,7 @@
 <div class="header">
 <h1>DIVS |</h1>
 <div class="things">
-<form id="updateForm">
-<input type="text" name="name">
-<input type="submit" value="Add a thing!" class="button">
-</form>
+
 </div>
 </div>
 	

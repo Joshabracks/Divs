@@ -22,6 +22,11 @@ public class JsUpdateString {
 			dataString = dataString + "!radius?" + current.radius + "#";
 			dataString = dataString + "!x?" + current.x + "#";
 			dataString = dataString + "!y?" + current.y + "#";
+			dataString = dataString + "!like?" + current.like + "#";
+			dataString = dataString + "!love?" + current.love + "#";
+			dataString = dataString + "!hate?" + current.hate + "#";
+			dataString = dataString + "!dislike?" + current.dislike + "#";
+			dataString = dataString + "!action?" + current.action + "#";
 			dataString = dataString + "!end#";
 		}
 		return dataString;
@@ -37,6 +42,11 @@ public class JsUpdateString {
 		dataString = dataString + "!radius?" + div.getRadius() + "#";
 		dataString = dataString + "!x?" + div.getX() + "#";
 		dataString = dataString + "!y?" + div.getY() + "#";
+		dataString = dataString + "!like?" + div.getEnjoy() + "#";
+		dataString = dataString + "!love?" + div.getLove() + "#";
+		dataString = dataString + "!hate?" + div.getHate() + "#";
+		dataString = dataString + "!dislike?" + div.getDislike() + "#";
+		dataString = dataString + "!action?Is chillin'#";
 		dataString = dataString + "!end#";
 		return dataString;
 	}
