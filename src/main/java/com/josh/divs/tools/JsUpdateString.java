@@ -27,6 +27,7 @@ public class JsUpdateString {
 			dataString = dataString + "!hate?" + current.hate + "#";
 			dataString = dataString + "!dislike?" + current.dislike + "#";
 			dataString = dataString + "!action?" + current.action + "#";
+			dataString = dataString + "!size?" + current.size + "#";
 			dataString = dataString + "!end#";
 		}
 		return dataString;
@@ -47,6 +48,7 @@ public class JsUpdateString {
 		dataString = dataString + "!hate?" + div.getHate() + "#";
 		dataString = dataString + "!dislike?" + div.getDislike() + "#";
 		dataString = dataString + "!action?Is chillin'#";
+		dataString = dataString + "!size?50#";
 		dataString = dataString + "!end#";
 		return dataString;
 	}

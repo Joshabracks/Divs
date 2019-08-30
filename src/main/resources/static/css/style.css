@@ -31,8 +31,6 @@
 	font-family: sans-serif;
 }
 .divvy{
-	height: 50px;
-	width: 50px;
 	text-align: center;
 	font-size:  18px;
 	font-weight: 900;
@@ -118,7 +116,6 @@
     display: block;
     text-align: center;
     color: black;
-    background-color: white;
     position: absolute;
     overflow-y: scroll;
     overflow-x: scroll;
@@ -128,6 +125,7 @@
     bottom: 100px;
     box-shadow: inset 20px 20px 20px -7px rgba(0, 0, 0, 0.678);
     border-left: 10px solid #C1272D;
+    
 }
 
 
@@ -180,4 +178,25 @@
 .block{
 	display: block;
 }
+
+.tree {
+      background: green;
+      width: 80px;
+      height: 80px;
+      position: relative;
+      text-align: center;
+      transform: rotate(20deg);
+      border-radius: 20px;
+    }
+    .tree:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 80px;
+      width: 80px;
+      background: red;
+      transform: rotate(135deg);
+      border-radius: 20px;
+    }
     
