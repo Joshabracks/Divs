@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.josh.divs.models.Div;
 import com.josh.divs.repositories.DivRepository;
 import com.josh.divs.routines.AntiSocialPredicate;
+import com.josh.divs.routines.FighterPredicate;
 import com.josh.divs.routines.FriendlyPredicate;
 import com.josh.divs.routines.Predicate;
 import com.josh.divs.routines.WigglingPredicate;
@@ -107,6 +108,7 @@ public class DivsController {
     public void move() {
 		for (int i = 0; i < this.allDivvy.size(); i++) {
 		Divvy current = allDivvy.get(i);
+		
 		if (current.targetY == null) {
 			current.targetY = current.y;
 		}
@@ -133,7 +135,7 @@ public class DivsController {
 		
 		}
 	}
-    @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 1000)
     public void scheduleTaskWithFixedRate() {
     	
     	if (things.allThings().size() < 3) {
@@ -156,8 +158,28 @@ public class DivsController {
     	
     	for (int i = 0; i < this.allDivvy.size(); i++) {
     		Divvy current = this.allDivvy.get(i);
+    			if (current.x < 0) {
+    				Predicate wiggle = new WigglingPredicate();
+	    			current = wiggle.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
+    			}
+    			else if (current.y < 0) {
+    				Predicate wiggle = new WigglingPredicate();
+	    			current = wiggle.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
+    			}
+    			else if (current.x > 3000) {
+    				Predicate wiggle = new WigglingPredicate();
+	    			current = wiggle.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
+    			}
+    			else if (current.y > 3000) {
+    				Predicate wiggle = new WigglingPredicate();
+	    			current = wiggle.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
+    			}
     			
-	    		if (current.trait.equals("friendly")) {
+    			else if (current.trait.equals("friendly")) {
 	    			FriendlyPredicate friendly = (FriendlyPredicate) new FriendlyPredicate();
 	    			current = friendly.call(current, this.allDivvy);
 	    			this.allDivvy.set(i, current);
@@ -169,6 +191,12 @@ public class DivsController {
 	    		}
 	    		else if (current.trait.equals("fighter")) {
 	    			//FIND ENEMY or SOCIALIZE 
+	    			FighterPredicate mean = new FighterPredicate();
+	    			current = mean.call(current, this.allDivvy);
+	    			this.allDivvy.set(i, current);
+	    			
+	    		}
+	    		else {
 	    			Predicate wiggle = new WigglingPredicate();
 	    			current = wiggle.call(current, this.allDivvy);
 	    			this.allDivvy.set(i, current);

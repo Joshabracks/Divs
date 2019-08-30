@@ -37,7 +37,7 @@ public class FriendlyPredicate{
 				self.targetX = target.x;
 				self.targetId = target.id;
 				self.mood = tools.friendlyMood();
-				self.action = self.name + " wants to talk to " + target.name;
+				self.action = " wants to talk to " + target.name;
 				return self;
 			}
 		}
@@ -79,7 +79,7 @@ public class FriendlyPredicate{
 				
 				if (target.trait.equals("friendly")){
 					chatScore++;
-					System.out.println(chatScore);
+					
 					
 				if (chatScore > 0) {
 					List<Long> friends = self.friends;
@@ -99,6 +99,7 @@ public class FriendlyPredicate{
 							}
 						}
 						friends.add(target.id);
+						target.friends.add(self.id);
 						self.friends = friends;
 						self.action = "and " +  target.name +  " are friends!";
 						self.mood = "<p style='color: pink;'>^_^</p>";

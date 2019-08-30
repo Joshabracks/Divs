@@ -65,17 +65,18 @@ public class ActionTools {
 			score = score - 6;
 		}
 		if (divA.love == divB.dislike) {
-			score = score - 2;
+			score = score - 3;
 		}
 		if (divA.dislike == divB.love) {
-			score = score - 2;
+			score = score - 3;
 		}
 		if (divA.dislike == divB.like) {
-			score = score - 1;
+			score = score - 2;
 		}
 		if (divA.like == divB.dislike) {
-			score = score -1;
+			score = score - 2;
 		}
+		
 		return score;
 	}
 	
@@ -115,6 +116,12 @@ public class ActionTools {
 	}
 	public String scaredFace() {
 		List<String> list = Arrays.asList(new String[]{"o_O", ">_<", "<p style= 'color: blue;'>T_T</p>"});
+		Random r = new Random();
+		String action = list.get(r.nextInt(list.size()));
+		return action;
+	}
+	public String meanFace() {
+		List<String> list = Arrays.asList(new String[]{"<p style= 'color: maroon;'>*_*</p>", "<p style= 'color: maroon;'>~_~</p>"});
 		Random r = new Random();
 		String action = list.get(r.nextInt(list.size()));
 		return action;

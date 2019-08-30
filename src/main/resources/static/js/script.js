@@ -46,15 +46,15 @@ function makeSpace(div){
 			var other = allDivs[i].name;
 			var yprox = yProx(div.y, allDivs[i].y);
 			var xprox = xProx(div.x, allDivs[i].x);
-			if (div.x < 0) {
-				div.xtarget = 10;
-				div.action = "Out of bounds. Returning";
-			}
-			else if (div.y < 0){
-				div.ytarget = 10;
-				div.action = "Out of bounds. Returning";
-			}
-			else if ((xprox == 0) && (yprox == 0)){
+//			if (div.x < 0) {
+//				div.xtarget = 10;
+//				div.action = "Out of bounds. Returning";
+//			}
+//			else if (div.y < 0){
+//				div.ytarget = 10;
+//				div.action = "Out of bounds. Returning";
+//			}
+			if ((xprox == 0) && (yprox == 0)){
 				div.xtarget = (div.x + Math.floor(Math.random() * 100) - 50);
 				div.ytarget = (div.y + Math.floor(Math.random() * 100) - 50);
 				div.action = "Giving " + other + " some space."
@@ -594,6 +594,10 @@ function updateDivs() {
 
 
 function updateMarquis() {
+	tempMar = "";
+	for (var i = 0; i < allDivs.length; i++){
+		tempMar = tempMar + " | " + allDivs[i].name + " " + allDivs[i].action;
+	}
 	document.getElementById("marquis").innerHTML  = tempMar;
 }
 
@@ -652,6 +656,7 @@ window.setInterval(function(){
 			for (var i = 0; i < allDivs.length; i++){
 				
 				updateBehaviors(data);
+				updateMarquis();
 				
 				
 			}
