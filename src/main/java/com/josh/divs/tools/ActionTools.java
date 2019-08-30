@@ -122,4 +122,10 @@ public class ActionTools {
 		String action = list.get(r.nextInt(list.size()));
 		return action;
 	}
+	public String creepyFace() {
+		List<String> list = Arrays.asList(new String[]{"<p style= 'color: white;'>*.*</p>", "<p style= 'color: white;'>-.-</p>", "<p style= 'color: white;'>=_=</p>"});
+		Random r = new Random();
+		String action = list.get(r.nextInt(list.size()));
+		return action;
+	}
 }
