@@ -10,8 +10,8 @@ import com.josh.divs.tools.Divvy;
 
 @Service
 public class FriendlyPredicate{
-	Random rando;
-	ActionTools tools;
+	private Random rando;
+	private ActionTools tools;
 	
 	public FriendlyPredicate() {
 		Random ran = new Random();
@@ -25,8 +25,8 @@ public class FriendlyPredicate{
 			self.status = "idle";
 		}
 		if (self.status.equals("idle")) {
-			
 			Divvy target = allDivvy.get(rando.nextInt(allDivvy.size()));
+
 			if (target.status == null) {
 				target.status = "idle";
 			}
@@ -40,9 +40,7 @@ public class FriendlyPredicate{
 				self.action = " wants to talk to " + target.name;
 				return self;
 			}
-		}
-		else if (self.status.equals("friendlyApproach")) {
-			
+		} else if (self.status.equals("friendlyApproach")) {
 			self.mood = tools.friendlyMood();
 			Divvy target = allDivvy.get(0);
 			int check = 0;
@@ -62,32 +60,24 @@ public class FriendlyPredicate{
 				self.targetY = self.y;
 				target.targetX = target.x;
 				target.targetY = target.y;
-				}
+			}
 			return self;
-		}
-			
-			
-		
-		else if (self.status.equals("chatting")) {
+		} else if (self.status.equals("chatting")) {
 			Divvy target = allDivvy.get(0);
 			int check = 0;
 			while ((target.id != self.targetId) && (check < allDivvy.size())) {
 				target = allDivvy.get(check);
 				check ++;
 			}
-				Integer chatScore = tools.compareInterests(self,  target);
-				
-				if (target.trait.equals("friendly")){
-					chatScore++;
-					
-					
+			Integer chatScore = tools.compareInterests(self,  target);	
+			if (target.trait.equals("friendly")) {
+				chatScore++;
 				if (chatScore > 0) {
 					List<Long> friends = self.friends;
 					boolean isFriend = false;
 					for (int i = 0; i < friends.size(); i++) {
 						if (friends.get(i) == target.id) {
 							isFriend = true;
-							
 						}
 					}
 					if (isFriend != true) {
@@ -108,7 +98,6 @@ public class FriendlyPredicate{
 				if (chatScore < 0) {
 					self.mood = "T_T";
 					List<Long> friends = self.friends;
-					
 					for (int i = 0; i < friends.size(); i++) {
 						if (friends.get(i) == target.id) {
 							friends.remove(i);
@@ -128,12 +117,9 @@ public class FriendlyPredicate{
 						self.enemies = enemies;
 					}
 				}
-				
 			}
 			self.status = "stillChatting";
-			
-		}
-		else if (self.status.equals("stillChatting")) {
+		} else if (self.status.equals("stillChatting")) {
 			self.status = "idle";
 			Divvy target = allDivvy.get(0);
 			int check = 0;
@@ -142,11 +128,7 @@ public class FriendlyPredicate{
 				check ++;
 			}
 			target.status = "idle";
-			
 		}
 		return self;
 	}
-
-	
-
 }

@@ -14,8 +14,6 @@ public class WigglingPredicate implements Predicate {
 	public WigglingPredicate() {
 		rng = new Random();
 	}
-	
-	
 	@Override
 	public Divvy call(Divvy self, List<Divvy> ctx) {
 		int deltaX = rng.nextInt(200)-100;

@@ -31,7 +31,7 @@ public class Divvy {
 	public String lastAction;
 	public Integer size;
 	
-	public Divvy(Div div){
+	public Divvy(Div div) {
 		this.id = div.getId();
 		this.name = div.getName();
 		this.trait = div.getTrait();

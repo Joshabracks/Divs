@@ -6,12 +6,8 @@ import com.josh.divs.services.DivService;
 
 @RestController
 public class AiController {
-
-	DivService divs;
-	
+	private DivService divs;
 	public AiController(DivService divs) {
 		this.divs = divs;
 	}
-	
-	
 }

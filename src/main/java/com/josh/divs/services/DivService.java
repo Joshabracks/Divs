@@ -14,14 +14,13 @@ import com.josh.divs.tools.FirstTrait;
 
 @Service
 public class DivService {
-	
-	DivRepository divs;
-	ColorGenerator colors;
-	Random rando;
-	FirstMood mood;
-	FirstTrait trait;
-	ThingService things;
-	
+	private DivRepository divs;
+	private ColorGenerator colors;
+	private Random rando;
+	private FirstMood mood;
+	private FirstTrait trait;
+	private ThingService things;
+
 	public DivService(DivRepository divs, ThingService things) {
 		this.divs = divs;
 		ColorGenerator col = new ColorGenerator();
@@ -69,6 +68,5 @@ public class DivService {
 		newDiv.setHate(next);
 		divs.save(newDiv);
 		return newDiv;
-		
 	}
 }

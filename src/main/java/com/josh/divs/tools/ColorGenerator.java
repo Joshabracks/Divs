@@ -3,11 +3,7 @@ package com.josh.divs.tools;
 import java.util.Random;
 
 public class ColorGenerator {
-	
-	public ColorGenerator() {
-		
-	}
-	
+	public ColorGenerator() {}
 	public String mix() {
 		Random rando = new Random();
 		int r = rando.nextInt(255);

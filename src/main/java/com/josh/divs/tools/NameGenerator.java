@@ -5,11 +5,9 @@ import java.util.Random;
 import org.springframework.util.StringUtils;
 
 public class NameGenerator {
-	
-	public NameGenerator(){
+	public NameGenerator() {
 		
 	}
-	
 	private boolean isVowel(char a) {
 		String vowe = "aeiou";
 		for (int i = 0; i < vowe.length(); i++) {
@@ -33,6 +31,7 @@ public class NameGenerator {
 			bef = prev;
 			prev = now;
 			now = r.nextInt(2);
+
 			if ((bef == prev) && (now == prev)) {
 				if (now == 1) {
 					now = 2;
@@ -41,10 +40,10 @@ public class NameGenerator {
 					now = 1;
 				}
 			}
+
 			if (now == 1) {
 				name = name + cons.charAt(r.nextInt(cons.length()));
-			}
-			else {
+			} else {
 				name = name + vowe.charAt(r.nextInt(vowe.length()));
 			}
 		}
@@ -68,15 +67,13 @@ public class NameGenerator {
 			if ((bef == prev) && (now == prev)) {
 				if (now == 1) {
 					now = 2;
-				}
-				else {
+				} else {
 					now = 1;
 				}
 			}
 			if (now == 1) {
 				name = name + cons.charAt(r.nextInt(cons.length()));
-			}
-			else {
+			} else {
 				name = name + vowe.charAt(r.nextInt(vowe.length()));
 			}
 		}
@@ -86,24 +83,30 @@ public class NameGenerator {
 		if ((pRange1 + 3 > parent.length())) {
 			pRange1 = pRange1 - 3;
 		}
+
 		if ((pRange1 - 3) < 0) {
 			pRange1 = 0;
 		}
+
 		int pRange2 = pRange1 + 3;
 		if (pRange2 > parent.length()) {
 			pRange2 = parent.length();
 		}
+
 		parent = parent.substring(pRange1, pRange2);
 		String nameTemp = name.substring(0, start) + parent;
+
 		if (nameTemp.length() < 6) {
 			nameTemp = nameTemp + name.substring(start, 3);
 		}
+
 		nameTemp = nameTemp.toLowerCase();
 		name = nameTemp;
 		
 		bef = 0;
 		prev = 1;
 		now = 2;
+
 		for (int i = 0; i < name.length(); i++) {
 			bef = prev;
 			prev = now;
@@ -128,7 +131,6 @@ public class NameGenerator {
 		
 		name = StringUtils.capitalize(nameTemp);
 		return name;
-
 	}
 	
 	public String name(String p1, String p2) {
@@ -161,6 +163,4 @@ public class NameGenerator {
 		name = name(parented);
 		return name;
 	}
-	
-	
 }

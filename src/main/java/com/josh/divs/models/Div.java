@@ -2,13 +2,11 @@ package com.josh.divs.models;
 
 import java.util.Date;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -16,7 +14,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.josh.divs.tools.FirstTrait;
 
 @Entity
@@ -37,23 +34,22 @@ public class Div {
 	private String trait;
 	@Size(min=3)
 	private String status;
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(
-//        name = "dislikes", 
-//        joinColumns = @JoinColumn(name = "div_id"), 
-//        inverseJoinColumns = @JoinColumn(name = "thing_id")
-//    )
-//    private List<Thing> dislikes;
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(
-//        name = "likes", 
-//        joinColumns = @JoinColumn(name = "div_id"), 
-//        inverseJoinColumns = @JoinColumn(name = "thing_id")
-//    )
-//    private List<Thing> likes;
+    /*@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "dislikes", 
+        joinColumns = @JoinColumn(name = "div_id"), 
+        inverseJoinColumns = @JoinColumn(name = "thing_id")
+    )
+    private List<Thing> dislikes;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "likes", 
+        joinColumns = @JoinColumn(name = "div_id"), 
+        inverseJoinColumns = @JoinColumn(name = "thing_id")
+    )
+    private List<Thing> likes;*/
 
 	private Long age;
-	
 	private Integer radius;
 	private Integer damage;
 	private Integer health;
@@ -66,7 +62,6 @@ public class Div {
     private Date createdAt;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
-    
     private String enjoy;
     private String love;
     private String dislike;
@@ -76,47 +71,32 @@ public class Div {
     public Div() {
     	FirstTrait firstTrait = new FirstTrait();
 		String trait = firstTrait.get();
-		this.trait = trait;
-			
+		this.trait = trait;	
     }
-    
-    
     
 	public String getTrait() {
 		return trait;
 	}
 
-
-
 	public void setTrait(String trait) {
 		this.trait = trait;
 	}
-
-
 
 	public String getStatus() {
 		return status;
 	}
 
-
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-
 
 	public Long getTargetId() {
 		return targetId;
 	}
 
-
-
 	public void setTargetId(Long targetId) {
 		this.targetId = targetId;
 	}
-
-
 
 	public Integer getX() {
 		return this.x;
@@ -174,8 +154,6 @@ public class Div {
 		this.color = color;
 	}
 	
-	
-
 	public Integer getRadius() {
 		return radius;
 	}
@@ -200,24 +178,22 @@ public class Div {
 		this.mood = mood;
 	}
 
-//	public List<Thing> getDislikes() {
-//		return dislikes;
-//	}
-//
-//	public void setDislikes(List<Thing> dislikes) {
-//		this.dislikes = dislikes;
-//	}
-//
-//	public List<Thing> getLikes() {
-//		return likes;
-//	}
-//
-//	public void setLikes(List<Thing> likes) {
-//		this.likes = likes;
-//	}
+	/*public List<Thing> getDislikes() {
+		return dislikes;
+	}
 
-	
-	
+	public void setDislikes(List<Thing> dislikes) {
+		this.dislikes = dislikes;
+	}
+
+	public List<Thing> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<Thing> likes) {
+		this.likes = likes;
+	}*/
+
 	public Long getAge() {
 		return age;
 	}
@@ -226,49 +202,33 @@ public class Div {
 		return enjoy;
 	}
 
-
-
 	public void setEnjoy(String enjoy) {
 		this.enjoy = enjoy;
 	}
-
-
 
 	public String getLove() {
 		return love;
 	}
 
-
-
 	public void setLove(String love) {
 		this.love = love;
 	}
-
-
 
 	public String getDislike() {
 		return dislike;
 	}
 
-
-
 	public void setDislike(String dislike) {
 		this.dislike = dislike;
 	}
-
-
 
 	public String getHate() {
 		return hate;
 	}
 
-
-
 	public void setHate(String hate) {
 		this.hate = hate;
 	}
-
-
 
 	public void setAge(Long age) {
 		this.age = age;
@@ -289,16 +249,11 @@ public class Div {
 	public void setHealth(Integer health) {
 		this.health = health;
 	}
-
-
 	
-
 	@PrePersist
     protected void onCreate(){
         this.createdAt = new Date();
     }
-
-
 
 	@PreUpdate
     protected void onUpdate(){

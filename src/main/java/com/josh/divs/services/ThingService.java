@@ -9,13 +9,10 @@ import com.josh.divs.repositories.ThingRepository;
 
 @Service
 public class ThingService {
-
-	ThingRepository things;
-	
+	private ThingRepository things;
 	public ThingService(ThingRepository things) {
 		this.things = things;
 	}
-	
 	
 	public List<Thing> allThings() {
 		List<Thing> allThings = (List<Thing>) things.findAll();
@@ -26,8 +23,6 @@ public class ThingService {
 	public Thing createThing(String name) {
 		Thing newThing = new Thing();
 		newThing.setName(name);
-		
-		
 		things.save(newThing);
 		return newThing;
 		

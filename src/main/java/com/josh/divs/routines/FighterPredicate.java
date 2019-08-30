@@ -10,8 +10,8 @@ import com.josh.divs.tools.Divvy;
 
 @Service
 public class FighterPredicate {
-	Random rando;
-	ActionTools tools;
+	private Random rando;
+	private ActionTools tools;
 	
 	public FighterPredicate() {
 		Random ran = new Random();
@@ -26,7 +26,6 @@ public class FighterPredicate {
 			self.status = "idle";
 		}
 		Integer aggro = rando.nextInt(10);
-		
 		for (int i = 0; i < allDivvy.size(); i++) {
 			if (allDivvy.get(i) != self) {
 				if ((tools.xProx(self, allDivvy.get(i)) < 200) && (tools.yProx(self, allDivvy.get(i)) < 200)) {
@@ -38,19 +37,15 @@ public class FighterPredicate {
 						self.status = "chasing";
 						self.action = "is chasing " + target.name;
 						self.mood = "<p style=' color: red;'>+_+</p>"; 
-					}
-					else {
-					
-					
-					self.targetId = target.id;
-					self.action = "is angry with " + target.name;
-					self.mood = tools.meanFace();
-					self.targetX = self.x + rando.nextInt(100)-50;
-					self.targetY = self.y + rando.nextInt(100)-50;
+					} else {
+						self.targetId = target.id;
+						self.action = "is angry with " + target.name;
+						self.mood = tools.meanFace();
+						self.targetX = self.x + rando.nextInt(100)-50;
+						self.targetY = self.y + rando.nextInt(100)-50;
 					}
 				}
 			}
-			
 		}
 		if (chasing == false) {
 			Predicate wiggle = new WigglingPredicate();
@@ -58,5 +53,4 @@ public class FighterPredicate {
 		}
 		return self;
 	}
-
 }
