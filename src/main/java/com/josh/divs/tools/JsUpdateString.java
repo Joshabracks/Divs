@@ -5,11 +5,7 @@ import java.util.List;
 import com.josh.divs.models.Div;
 
 public class JsUpdateString {
-
-	
-	public JsUpdateString() {
-	}
-	
+	public JsUpdateString() {}
 	public String getData(List<Divvy> divs) {
 		String dataString = "";
 		for (int i = divs.size()-1; i >= 0; i--) {

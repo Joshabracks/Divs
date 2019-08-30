@@ -11,8 +11,8 @@ import com.josh.divs.tools.NameGenerator;
 
 @Service
 public class TreePredicate {
-	Random rando;
-	ActionTools tools;
+	private Random rando;
+	private ActionTools tools;
 	
 	public TreePredicate() {
 		Random ran = new Random();
@@ -105,9 +105,7 @@ public class TreePredicate {
 	private void hatchBerries(Divvy self, List<Divvy> allDivvy) {
 		for (int i = 0; i < allDivvy.size(); i++) {
 			if (allDivvy.get(i).status.equals("berry")) {
-				
 				Divvy current = allDivvy.get(i);
-				
 				if ((tools.xProx(self, current) < 75) && (tools.yProx(self, current) < 75)) {
 					current.age = (long) 0;
 					NameGenerator babyName = new NameGenerator();
@@ -120,7 +118,6 @@ public class TreePredicate {
 			}
 		}
 	}
-	
 	
 	public Divvy call(Divvy self, List<Divvy> allDivvy) {
 		self.status = "tree";
@@ -142,10 +139,7 @@ public class TreePredicate {
 					hatchBerries(self, allDivvy);
 				}
 			}
-		}
-		
-		
-			
+		}		
 		return self;
-		}
+	}
 }

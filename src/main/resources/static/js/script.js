@@ -12,29 +12,29 @@ var tempMar = "";
 
 
 function move(div){
-    var dot = document.getElementById(div.id);
+	var dot = document.getElementById(div.id);
 	if (div.like == "trees"){
-	    	
-	    }
+			
+		}
 	else {
-	    if (div.x != div.xtarget){
-		    if (div.x < div.xtarget) {
-		    	div.x++;
-		    }
-		    if (div.x > div.xtarget) {
-		    	div.x--;
-		    }
-		    dot.style.left = (div.x) + "px";
-	    }
-	    if (div.y != div.ytarget){
-		    if (div.y < div.ytarget) {
-		    	div.y++;
-		    }
-		    if (div.y > div.ytarget) {
-		    	div.y--;
-		    }
-		    dot.style.top = (div.y) + "px";
-	    }
+		if (div.x != div.xtarget){
+			if (div.x < div.xtarget) {
+				div.x++;
+			}
+			if (div.x > div.xtarget) {
+				div.x--;
+			}
+			dot.style.left = (div.x) + "px";
+		}
+		if (div.y != div.ytarget){
+			if (div.y < div.ytarget) {
+				div.y++;
+			}
+			if (div.y > div.ytarget) {
+				div.y--;
+			}
+			dot.style.top = (div.y) + "px";
+		}
 	}
 }
 //PROXIMITY AND SPACE MAKING BEHAVIOUR
@@ -655,19 +655,19 @@ function trigger(){
 //GETS ALL DIVS FROM SERVER :: RUN ON PAGE LOAD ONLY
 function updateAll(){
 	$.ajax({
-	      type: "POST",
-	      url: "/update",
-	      success: function(data, result, jqXHR) {
-	    	  spawnData(data);
-	    	  setDivs();
-	    	  updateDivs();
-	          updateMarquis();
-	          //UPDATE DIVS FUNCTION :: UPDATES DIVS WITHOUT ADDING NEW DIVS 
+		  type: "POST",
+		  url: "/update",
+		  success: function(data, result, jqXHR) {
+			  spawnData(data);
+			  setDivs();
+			  updateDivs();
+			  updateMarquis();
+			  //UPDATE DIVS FUNCTION :: UPDATES DIVS WITHOUT ADDING NEW DIVS 
 //	          updateDivs();
-	          //GAME UPDATE FUNCTION
-	          
-	        }
-	    })
+			  //GAME UPDATE FUNCTION
+			  
+			}
+		})
 }
 
 
@@ -739,8 +739,8 @@ window.setInterval(function(){
 }, 1000)
 
 $('#spawner').click(function(event) {
-            
-            spawn();
+			
+			spawn();
 })
 
 function updateSpotlight(id){
@@ -770,9 +770,9 @@ $('#gamer').click(function(event){
 })
 
 
-        
+		
 
-        
+		
 
-        
+		
 //$("#things").ajaxForm({url: '/thing/new', type: 'post'})

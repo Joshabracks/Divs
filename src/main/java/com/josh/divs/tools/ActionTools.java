@@ -8,17 +8,13 @@ import com.josh.divs.models.Div;
 import com.josh.divs.repositories.DivRepository;
 
 public class ActionTools {
-	
 	public ActionTools(){}
-	
 	public Integer xProx(Divvy divA, Divvy divB) {
 		return Math.abs(divA.x - divB.x);
 	}
-	
 	public Integer yProx(Divvy divA, Divvy divB) {
 		return Math.abs(divA.x - divB.x);
 	}
-	
 	public String friendlyMood() {
 		List<String> list = Arrays.asList(new String[]{"^_^", "^.^"});
 		Random r = new Random();
@@ -76,7 +72,6 @@ public class ActionTools {
 		if (divA.like == divB.dislike) {
 			score = score - 2;
 		}
-		
 		return score;
 	}
 	
