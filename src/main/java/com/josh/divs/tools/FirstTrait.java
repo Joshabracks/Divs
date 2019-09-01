@@ -7,7 +7,7 @@ import java.util.Random;
 public class FirstTrait {
 	private List<String> traits;
 	public FirstTrait() {
-		List<String> list = Arrays.asList(new String[]{"friendly", "fighter", "antisocial"});
+		List<String> list = Arrays.asList(new String[]{"friendly", "fighter", "antisocial", "sociopath", "hermit"});
 		this.traits = list;
 	}
 	public String get() {

@@ -2,6 +2,7 @@ package com.josh.divs.tools;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import com.josh.divs.models.Div;
@@ -76,7 +77,9 @@ public class ActionTools {
 	}
 	
 	public void saveDiv(Divvy divvy, DivRepository repo) {
-		Div div = repo.findById(divvy.id).get();
+		Optional<Div> option = repo.findById(divvy.id);
+		if (option.isPresent()) {
+		Div div = option.get();
 		div.setId(divvy.id);
 		div.setName(divvy.name);
 		div.setTrait(divvy.trait);
@@ -96,6 +99,7 @@ public class ActionTools {
 		div.setTargetId(divvy.targetId);
 		div.setAge(divvy.age);
 		repo.save(div);
+		}
 	}
 	
 	public String idleAction() {
