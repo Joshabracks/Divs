@@ -2,6 +2,7 @@ package com.josh.divs.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,7 +17,9 @@ import com.josh.divs.repositories.DivRepository;
 import com.josh.divs.routines.AntiSocialPredicate;
 import com.josh.divs.routines.FighterPredicate;
 import com.josh.divs.routines.FriendlyPredicate;
+import com.josh.divs.routines.HermitPredicate;
 import com.josh.divs.routines.Predicate;
+import com.josh.divs.routines.SociopathPredicate;
 import com.josh.divs.routines.WigglingPredicate;
 import com.josh.divs.services.DivService;
 import com.josh.divs.services.ThingService;
@@ -115,9 +118,6 @@ public class DivsController {
 		for(Divvy divvy : allDivvy) {
 			tools.saveDiv(divvy, repo);
 		}
-		/*for (int i = 0; i < this.allDivvy.size(); i++) {
-			tools.saveDiv(this.allDivvy.get(i), repo); 
-		}*/
 	}
 	
 	@Scheduled(fixedRate = 20)
@@ -150,7 +150,7 @@ public class DivsController {
 		}
 	}
 
-	@Scheduled(fixedRate = 750)
+	@Scheduled(fixedDelay = 750)
 	public void scheduleTaskWithFixedRate() {
 		if (things.allThings().size() < 3) {
 			things.createThing("cats");
@@ -174,13 +174,23 @@ public class DivsController {
 
 		for (int i = 0; i < this.allDivvy.size(); i++) {
 			Divvy current = this.allDivvy.get(i);
+			if (current.trait.equals("dying") || current.status.equals("dying")) {
+				current.trait = "dead";
+				
+				Optional<Div> doom = repo.findById(current.id);
+				if (doom.isPresent()) {
+					Div doomed = doom.get();
+				repo.delete(doomed);
+				allDivvy.remove(i);
+				}
+			}
+			if (current.age < 0) {
+				current.trait = "dying";
+				current.mood = "X_x";
+				current.status = "dying";
+				current.action = "dying";
+			}
 			current.age++;
-
-    		/*if ((current.size > 100)) {
-    			current.status = "tree";
-    			current.action = "tree";
-    			current.trait = "tree";
-			}*/
 			
 			if (current.age % 100 == 0) {
 				current.size = 50 + Math.round(current.age/100);
@@ -194,25 +204,7 @@ public class DivsController {
 				current.name = names.name(current.name);
 				current.action = "is born!";
 			}
-
-    		/*if (current.trait.equals("tree")) {
-    			TreePredicate tree = new TreePredicate();
-    			current = tree.call(current, this.allDivvy);
-    			this.allDivvy.set(i, current);
-    			if (!current.trait.equals("tree")) {
-    				NameGenerator name = new NameGenerator();
-    				Div newDiv = divs.createDiv(name.name(current.name));
-    				newDiv.setX(current.x);
-    				newDiv.setY(current.y);
-    				loadOne(newDiv);
-    			}
-    		}
-    		else if (current.trait.equals("berry")) {
-    			current.targetX = current.x;
-    			current.targetY = current.y;
-
-			}*/
-
+			
 			if (current.x < 0) {
 				Predicate wiggle = new WigglingPredicate();
 				current = wiggle.call(current, this.allDivvy);
@@ -238,11 +230,17 @@ public class DivsController {
 				current = antiSocial.call(current, this.allDivvy);
 				this.allDivvy.set(i, current);
 			} else if (current.trait.equals("fighter")) {
-				//FIND ENEMY or SOCIALIZE 
 				FighterPredicate mean = new FighterPredicate();
 				current = mean.call(current, this.allDivvy);
 				this.allDivvy.set(i, current);
-				
+			} else if (current.trait.equals("sociopath")) {
+				SociopathPredicate crazy = new SociopathPredicate();
+				current = crazy.call(current, this.allDivvy);
+				this.allDivvy.set(i, current);
+			} else if (current.trait.equals("hermit")) {
+				HermitPredicate crazy = new HermitPredicate();
+				current = crazy.call(current, this.allDivvy);
+				this.allDivvy.set(i, current);
 			} else {
 				Predicate wiggle = new WigglingPredicate();
 				current = wiggle.call(current, this.allDivvy);

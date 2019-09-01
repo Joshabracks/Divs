@@ -35,7 +35,7 @@ public class SociopathPredicate {
 					}
 				}
 				for (int i = 0; i < allDivvy.size(); i++) {
-					if ((allDivvy.get(i).id != self.id) && ((tools.xProx(allDivvy.get(i), target) < 300) && (tools.yProx(allDivvy.get(i), target) < 300))) {
+					if ((allDivvy.get(i).id != self.id) && ((tools.xProx(allDivvy.get(i), target) > 300) && (tools.yProx(allDivvy.get(i), target) > 300))) {
 						allClear = true;
 					}
 					else {
@@ -50,6 +50,8 @@ public class SociopathPredicate {
 					if (target.trait.equals("fighter")) {
 						self.age = self.age - 15;
 					}
+					self.status = "attacking";
+					self.action = "is attacking " + target.name;
 					//KEEP BELOW CODE FOR WHEN VICTIM PREDICATE AND TRAIT ARE ADDED
 //					else {	
 //					(target.trait = victim);
@@ -66,8 +68,10 @@ public class SociopathPredicate {
 				}
 				self.targetId = target.id;
 				self.status = "stalking";
-				self.action = "is stalking " + target.name;
-				self.mood = tools.creepyFace();
+				self.action = "wants to talk to " + target.name;
+				self.love = target.name;
+				self.hate = target.name;
+				self.mood = tools.friendlyMood();
 				self.targetX = target.x;
 				self.targetY = target.y;
 			}

@@ -26,21 +26,22 @@ public class FriendlyPredicate{
 		}
 		if (self.status.equals("idle")) {
 			Divvy target = allDivvy.get(rando.nextInt(allDivvy.size()));
-
-			if (target.status == null) {
-				target.status = "idle";
+			if (target != self) {
+				if (target.status == null) {
+					target.status = "idle";
+				}
+				if (target.status.equals("idle")) {
+					self.status = "friendlyApproach";
+					self.targetY = target.y;
+					self.targetX = target.x;
+					self.targetId = target.id;
+					self.mood = tools.friendlyMood();
+					self.action = " wants to talk to " + target.name;
+					return self;
+				}
 			}
-			
-			if (target.status.equals("idle")) {
-				self.status = "friendlyApproach";
-				self.targetY = target.y;
-				self.targetX = target.x;
-				self.targetId = target.id;
-				self.mood = tools.friendlyMood();
-				self.action = " wants to talk to " + target.name;
-				return self;
-			}
-		} else if (self.status.equals("friendlyApproach")) {
+		} 
+		else if (self.status.equals("friendlyApproach")) {
 			self.mood = tools.friendlyMood();
 			Divvy target = allDivvy.get(0);
 			int check = 0;
